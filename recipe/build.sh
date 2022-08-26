@@ -40,7 +40,7 @@ cmake --build build --parallel ${CPU_COUNT} --target pyamrex_pip_wheel
 cmake --build build --parallel ${CPU_COUNT} --target pip_wheel
 
 # test
-if [[ "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]]; then
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
     ctest --test-dir build --output-on-failure -E AMReX
 fi
 
