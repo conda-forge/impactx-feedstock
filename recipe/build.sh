@@ -29,6 +29,7 @@ cmake \
     -DImpactX_IPO=${ImpactX_IPO}          \
     -DImpactX_amrex_branch=22.08          \
     -DImpactX_pyamrex_branch=c11acfaf08162fe42c5ee07c086d23f2874fa779 \
+    -DImpactX_pybind11_internal=OFF       \
     -DImpactX_LIB=ON      \
     -DImpactX_MPI=OFF     \
     -DImpactX_PYTHON=ON   \
@@ -40,7 +41,7 @@ cmake --build build --parallel ${CPU_COUNT} --target pyamrex_pip_wheel
 cmake --build build --parallel ${CPU_COUNT} --target pip_wheel
 
 # test
-if [[ "$CONDA_BUILD_CROSS_COMPILATION" != "1" ]]; then
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
     ctest --test-dir build --output-on-failure -E AMReX
 fi
 

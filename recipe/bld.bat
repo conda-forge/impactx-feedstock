@@ -18,6 +18,7 @@ cmake ^
     -DCMAKE_VERBOSE_MAKEFILE=ON           ^
     -DImpactX_amrex_branch=22.08          ^
     -DImpactX_pyamrex_branch=c11acfaf08162fe42c5ee07c086d23f2874fa779 ^
+    -DImpactX_pybind11_internal=OFF       ^
     -DImpactX_COMPUTE=NOACC ^
     -DImpactX_LIB=ON        ^
     -DImpactX_MPI=OFF       ^
