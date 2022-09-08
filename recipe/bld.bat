@@ -41,7 +41,5 @@ if errorlevel 1 exit 1
 :: install
 cmake --build build --config RelWithDebInfo --target install
 if errorlevel 1 exit 1
-%PYTHON% -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build\_deps\fetchedpyamrex-build amrex
-if errorlevel 1 exit 1
-%PYTHON% -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build impactx
+cmake --build build --config RelWithDebInfo --target pip_install
 if errorlevel 1 exit 1
