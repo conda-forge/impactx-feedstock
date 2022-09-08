@@ -47,4 +47,5 @@ fi
 
 # install
 cmake --build build --target install
-cmake --build build --target pip_install
+${PYTHON} -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build/_deps/fetchedpyamrex-build/amrex-whl amrex
+${PYTHON} -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build/impactx-whl impactx
