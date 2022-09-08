@@ -64,6 +64,7 @@ test:
   source_files:
     - examples/fodo/input_fodo.in
     - examples/fodo/run_fodo.py
+    - tests/python/
   files:
     - test.sh   # [unix]
     - test.bat  # [win]

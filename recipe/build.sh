@@ -42,7 +42,7 @@ cmake --build build --parallel ${CPU_COUNT} --target pip_wheel
 
 # test
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
-    ctest --test-dir build --output-on-failure -E AMReX
+    ctest --test-dir build --output-on-failure -E pytest
 fi
 
 # install

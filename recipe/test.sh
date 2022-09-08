@@ -10,3 +10,5 @@ impactx.NOMPI.NOACC.DP ${TEST_DIR}/input_fodo.in
 
 # Python
 $PYTHON ${TEST_DIR}/run_fodo.py
+
+$PYTHON -m pytest -s -vvvv tests/python/

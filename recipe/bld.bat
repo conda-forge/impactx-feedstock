@@ -35,7 +35,7 @@ cmake --build build --config RelWithDebInfo --parallel 2 --target pip_wheel
 if errorlevel 1 exit 1
 
 :: test
-ctest --test-dir build --build-config RelWithDebInfo --output-on-failure -E AMReX
+ctest --test-dir build --build-config RelWithDebInfo --output-on-failure -E pytest
 if errorlevel 1 exit 1
 
 :: install
