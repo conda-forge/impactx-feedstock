@@ -44,16 +44,16 @@ requirements:
     - setuptools
     - wheel
     - pkgconfig
+    - numpy >=1.15.0
     # ctest
     - matplotlib-base  # [build_platform == target_platform]
-    - numpy            # [build_platform == target_platform]
     - pandas           # [build_platform == target_platform]
     - pytest           # [build_platform == target_platform]
     - python           # [build_platform == target_platform]
     - scipy            # [build_platform == target_platform]
   run:
     - matplotlib-base
-    - numpy
+    - numpy >=1.15.0
     - pandas
     - python
     - scipy
