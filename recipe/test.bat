@@ -10,3 +10,6 @@ if errorlevel 1 exit 1
 :: Python
 %PYTHON% %TEST_DIR%\run_fodo.py
 if errorlevel 1 exit 1
+
+%PYTHON% -m pytest -s -vvvv tests\python\
+if errorlevel 1 exit 1

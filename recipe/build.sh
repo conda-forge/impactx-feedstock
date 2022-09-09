@@ -27,8 +27,8 @@ cmake \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}      \
     -DImpactX_COMPUTE=NOACC               \
     -DImpactX_IPO=${ImpactX_IPO}          \
-    -DImpactX_amrex_branch=22.08          \
-    -DImpactX_pyamrex_branch=c11acfaf08162fe42c5ee07c086d23f2874fa779 \
+    -DImpactX_amrex_branch=35ed6b4d343215c1ccf6e4d0a59813fc236c9f22   \
+    -DImpactX_pyamrex_branch=1f88c1bf5731bfb15f1ee22ced79904a4776442b \
     -DImpactX_pybind11_internal=OFF       \
     -DImpactX_LIB=ON      \
     -DImpactX_MPI=OFF     \
@@ -42,10 +42,10 @@ cmake --build build --parallel ${CPU_COUNT} --target pip_wheel
 
 # test
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
-    ctest --test-dir build --output-on-failure -E AMReX
+    ctest --test-dir build --output-on-failure -E pytest
 fi
 
 # install
 cmake --build build --target install
-${PYTHON} -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build/_deps/fetchedpyamrex-build amrex
-${PYTHON} -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build impactx
+${PYTHON} -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build/_deps/fetchedpyamrex-build/amrex-whl amrex
+${PYTHON} -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build/impactx-whl impactx
