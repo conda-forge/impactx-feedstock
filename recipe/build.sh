@@ -42,7 +42,8 @@ cmake --build build --parallel ${CPU_COUNT} --target pyamrex_pip_wheel
 cmake --build build --parallel ${CPU_COUNT} --target pip_wheel
 
 # test
-if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
+#  || "${CROSSCOMPILING_EMULATOR}" != ""
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" ]]; then
     # skip the pyAMReX tests to save CI time
     EXCLUSION_REGEX="AMReX"
 
