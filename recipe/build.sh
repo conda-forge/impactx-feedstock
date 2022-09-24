@@ -33,7 +33,8 @@ cmake \
     -DImpactX_LIB=ON      \
     -DImpactX_MPI=OFF     \
     -DImpactX_PYTHON=ON   \
-    -DPython_EXECUTABLE=${PYTHON}
+    -DPython_EXECUTABLE=${PYTHON} \
+    -DPython_INCLUDE_DIR=$(${PYTHON} -c "from sysconfig import get_paths as gp; print(gp()['include'])")
 
 # build
 cmake --build build --parallel ${CPU_COUNT}
