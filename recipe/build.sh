@@ -33,7 +33,8 @@ cmake \
     -DImpactX_LIB=ON      \
     -DImpactX_MPI=OFF     \
     -DImpactX_PYTHON=ON   \
-    -DPython_EXECUTABLE=${PYTHON}
+    -DPython_EXECUTABLE=${PYTHON} \
+    -DPython_INCLUDE_DIR=$(${PYTHON} -c "from sysconfig import get_paths as gp; print(gp()['include'])")
 
 # build
 cmake --build build --parallel ${CPU_COUNT}
@@ -41,7 +42,8 @@ cmake --build build --parallel ${CPU_COUNT} --target pyamrex_pip_wheel
 cmake --build build --parallel ${CPU_COUNT} --target pip_wheel
 
 # test
-if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
+#  || "${CROSSCOMPILING_EMULATOR}" != ""
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" ]]; then
     # skip the pyAMReX tests to save CI time
     EXCLUSION_REGEX="AMReX"
 
