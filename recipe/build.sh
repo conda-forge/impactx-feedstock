@@ -27,8 +27,8 @@ cmake \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}      \
     -DImpactX_COMPUTE=NOACC               \
     -DImpactX_IPO=${ImpactX_IPO}          \
-    -DImpactX_amrex_branch=35ed6b4d343215c1ccf6e4d0a59813fc236c9f22   \
-    -DImpactX_pyamrex_branch=1f88c1bf5731bfb15f1ee22ced79904a4776442b \
+    -DImpactX_amrex_branch=13aa4df0f5a4af40270963ad5b42ac7ce662e045   \
+    -DImpactX_pyamrex_branch=526bcd72aff0f0147a261700b402fd0eebdb9fdb \
     -DImpactX_pybind11_internal=OFF       \
     -DImpactX_LIB=ON      \
     -DImpactX_MPI=OFF     \
@@ -42,7 +42,21 @@ cmake --build build --parallel ${CPU_COUNT} --target pip_wheel
 
 # test
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
-    ctest --test-dir build --output-on-failure -E pytest
+    # skip the pyAMReX tests to save CI time
+    EXCLUSION_REGEX="AMReX"
+
+    # macOS x86_64 pypy: import issue with matplotlib
+    #   AttributeError: module 'threading' has no attribute 'get_native_id'
+    # https://foss.heptapod.net/pypy/pypy/-/issues/3764
+    if [[ "${target_platform}" == "osx-64" ]]; then
+        IS_PYPY=$(${PYTHON} -c "import platform; print(int(platform.python_implementation() == 'PyPy'))")
+        if [[ ${IS_PYPY} == "1" ]]; then
+            EXCLUSION_REGEX="(AMReX|plot|pytest)"
+        fi
+    fi
+
+    echo "EXCLUSION_REGEX=${EXCLUSION_REGEX}"
+    ctest --test-dir build --output-on-failure -E "${EXCLUSION_REGEX}"
 fi
 
 # install

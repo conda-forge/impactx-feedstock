@@ -1,7 +1,7 @@
 {% set name = "impactx" %}
-{% set version = "22.09" %}
+{% set version = "22.10" %}
 {% set build = 0 %}
-{% set sha256 = "354e1e2aeb318cb24be2c5f812e0c0cddc7ca728edddb6b0615d8483a7ace95d" %}
+{% set sha256 = "21f900fbe743f7603796432818eb28f45144f97c4ffad9295986fab40130902c" %}
 
 package:
   name: {{ name|lower }}

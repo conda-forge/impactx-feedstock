@@ -11,4 +11,10 @@ impactx.NOMPI.NOACC.DP ${TEST_DIR}/input_fodo.in
 # Python
 $PYTHON ${TEST_DIR}/run_fodo.py
 
-$PYTHON -m pytest -s -vvvv tests/python/
+# macOS x86_64 pypy: import issue with matplotlib
+#   AttributeError: module 'threading' has no attribute 'get_native_id'
+# https://foss.heptapod.net/pypy/pypy/-/issues/3764
+IS_PYPY=$(${PYTHON} -c "import platform; print(int(platform.python_implementation() == 'PyPy'))")
+if [[ "${target_platform}" != "osx-64" ]] || [[ ${IS_PYPY} != "1" ]]; then
+    $PYTHON -m pytest -s -vvvv tests/python/
+fi
