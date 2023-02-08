@@ -16,8 +16,6 @@ cmake ^
     -DCMAKE_LINKER=lld-link               ^
     -DCMAKE_NM=llvm-nm                    ^
     -DCMAKE_VERBOSE_MAKEFILE=ON           ^
-    -DImpactX_amrex_branch=13aa4df0f5a4af40270963ad5b42ac7ce662e045   ^
-    -DImpactX_pyamrex_branch=526bcd72aff0f0147a261700b402fd0eebdb9fdb ^
     -DImpactX_pybind11_internal=OFF       ^
     -DImpactX_COMPUTE=NOACC ^
     -DImpactX_LIB=ON        ^
