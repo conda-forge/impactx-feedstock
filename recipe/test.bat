@@ -1,7 +1,7 @@
 @echo on
 
 set "OMP_NUM_THREADS=2"
-set "TEST_DIR=example\fodo"
+set "TEST_DIR=examples\fodo"
 
 :: executable
 impactx.NOMPI.NOACC.DP.exe %TEST_DIR%\input_fodo.in

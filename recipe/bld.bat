@@ -13,6 +13,9 @@ cmake ^
     -DCMAKE_BUILD_TYPE=RelWithDebInfo     ^
     -DCMAKE_C_COMPILER=clang-cl           ^
     -DCMAKE_CXX_COMPILER=clang-cl         ^
+    -DCMAKE_INSTALL_LIBDIR=lib            ^
+    -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
+    -DCMAKE_INSTALL_PYTHONDIR=%SP_DIR%    ^
     -DCMAKE_LINKER=lld-link               ^
     -DCMAKE_NM=llvm-nm                    ^
     -DCMAKE_VERBOSE_MAKEFILE=ON           ^
@@ -33,7 +36,9 @@ cmake --build build --config RelWithDebInfo --parallel 2 --target pip_wheel
 if errorlevel 1 exit 1
 
 :: test
-ctest --test-dir build --build-config RelWithDebInfo --output-on-failure -E pytest
+::   skip the pyAMReX tests to save CI time
+set "EXCLUSION_REGEX=AMReX"
+ctest --test-dir build --build-config RelWithDebInfo --output-on-failure -E %EXCLUSION_REGEX%
 if errorlevel 1 exit 1
 
 :: install

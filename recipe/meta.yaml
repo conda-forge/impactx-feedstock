@@ -70,7 +70,6 @@ test:
     - impactx
   commands:
     - test -f ${PREFIX}/bin/impactx.NOMPI.NOACC.DP  # [unix]
-
     - if not exist %LIBRARY_PREFIX%\bin\impactx.NOMPI.NOACC.DP.exe exit 1  # [win]
     # smoke tests: execute
     - ./test.sh      # [unix and build_platform == target_platform]
