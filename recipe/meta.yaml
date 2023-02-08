@@ -16,9 +16,6 @@ build:
   run_exports:
     # releases are not (yet) compatible
     - impactx {{ version }}
-  # wait for 22.09 for Windows builds
-  # https://github.com/ECP-WarpX/impactx/pull/205
-  skip: true  # [win]
 
 requirements:
   build:
