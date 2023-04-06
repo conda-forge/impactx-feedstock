@@ -19,10 +19,12 @@ cmake ^
     -DCMAKE_LINKER=lld-link               ^
     -DCMAKE_NM=llvm-nm                    ^
     -DCMAKE_VERBOSE_MAKEFILE=ON           ^
+    -DImpactX_openpmd_internal=OFF        ^
     -DImpactX_pybind11_internal=OFF       ^
     -DImpactX_COMPUTE=NOACC ^
     -DImpactX_LIB=ON        ^
     -DImpactX_MPI=OFF       ^
+    -DImpactX_OPENPMD=ON    ^
     -DImpactX_PYTHON=ON     ^
     -DPython_EXECUTABLE=%PYTHON%
 if errorlevel 1 exit 1

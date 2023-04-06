@@ -43,6 +43,7 @@ requirements:
     - wheel
     - pkgconfig
     - numpy >=1.15.0
+    - openpmd-api >=0.15.1
     # ctest
     - matplotlib-base  # [build_platform == target_platform]
     - pandas           # [build_platform == target_platform]
@@ -69,8 +70,8 @@ test:
   imports:
     - impactx
   commands:
-    - test -f ${PREFIX}/bin/impactx.NOMPI.NOACC.DP  # [unix]
-    - if not exist %LIBRARY_PREFIX%\bin\impactx.NOMPI.NOACC.DP.exe exit 1  # [win]
+    - test -f ${PREFIX}/bin/impactx.NOMPI.NOACC.DP.OPMD  # [unix]
+    - if not exist %LIBRARY_PREFIX%\bin\impactx.NOMPI.NOACC.DP.OPMD.exe exit 1  # [win]
     # smoke tests: execute
     - ./test.sh      # [unix and build_platform == target_platform]
     - call test.bat  # [win]

@@ -27,9 +27,11 @@ cmake \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}      \
     -DImpactX_COMPUTE=NOACC               \
     -DImpactX_IPO=${ImpactX_IPO}          \
+    -DImpactX_openpmd_internal=OFF        \
     -DImpactX_pybind11_internal=OFF       \
     -DImpactX_LIB=ON      \
     -DImpactX_MPI=OFF     \
+    -DImpactX_OPENPMD=ON  \
     -DImpactX_PYTHON=ON   \
     -DPython_EXECUTABLE=${PYTHON} \
     -DPython_INCLUDE_DIR=$(${PYTHON} -c "from sysconfig import get_paths as gp; print(gp()['include'])")
