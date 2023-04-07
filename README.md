@@ -1,11 +1,11 @@
-About impactx
-=============
+About impactx-feedstock
+=======================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/impactx-feedstock/blob/main/LICENSE.txt)
 
 Home: https://impactx.readthedocs.io
 
 Package license: BSD-3-Clause-LBNL
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/impactx-feedstock/blob/main/LICENSE.txt)
 
 Summary: ImpactX is an s-based beam dynamics code for particle accelerator research & design.
 
