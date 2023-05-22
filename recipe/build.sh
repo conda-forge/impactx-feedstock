@@ -21,7 +21,7 @@ fi
 cmake \
     -S ${SRC_DIR} -B build                \
     ${CMAKE_ARGS}                         \
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo     \
+    -DCMAKE_BUILD_TYPE=Release            \
     -DCMAKE_VERBOSE_MAKEFILE=ON           \
     -DCMAKE_INSTALL_LIBDIR=lib            \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}      \

@@ -10,7 +10,7 @@ cmake ^
     -S %SRC_DIR% -B build                 ^
     %CMAKE_ARGS%                          ^
     -G "Ninja"                            ^
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo     ^
+    -DCMAKE_BUILD_TYPE=Release            ^
     -DCMAKE_C_COMPILER=clang-cl           ^
     -DCMAKE_CXX_COMPILER=clang-cl         ^
     -DCMAKE_INSTALL_LIBDIR=lib            ^
@@ -30,21 +30,21 @@ cmake ^
 if errorlevel 1 exit 1
 
 :: build
-cmake --build build --config RelWithDebInfo --parallel 2
+cmake --build build --config Release --parallel 2
 if errorlevel 1 exit 1
-cmake --build build --config RelWithDebInfo --parallel 2 --target pyamrex_pip_wheel
+cmake --build build --config Release --parallel 2 --target pyamrex_pip_wheel
 if errorlevel 1 exit 1
-cmake --build build --config RelWithDebInfo --parallel 2 --target pip_wheel
+cmake --build build --config Release --parallel 2 --target pip_wheel
 if errorlevel 1 exit 1
 
 :: test
 ::   skip the pyAMReX tests to save CI time
 set "EXCLUSION_REGEX=AMReX"
-ctest --test-dir build --build-config RelWithDebInfo --output-on-failure -E %EXCLUSION_REGEX%
+ctest --test-dir build --build-config Release --output-on-failure -E %EXCLUSION_REGEX%
 if errorlevel 1 exit 1
 
 :: install
-cmake --build build --config RelWithDebInfo --target install
+cmake --build build --config Release --target install
 if errorlevel 1 exit 1
 %PYTHON% -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build\_deps\fetchedpyamrex-build\amrex-whl amrex
 if errorlevel 1 exit 1
