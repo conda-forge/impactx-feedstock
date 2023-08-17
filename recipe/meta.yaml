@@ -70,8 +70,8 @@ test:
   imports:
     - impactx
   commands:
-    - test -f ${PREFIX}/bin/impactx.NOMPI.NOACC.DP.OPMD  # [unix]
-    - if not exist %LIBRARY_PREFIX%\bin\impactx.NOMPI.NOACC.DP.OPMD.exe exit 1  # [win]
+    - test -f ${PREFIX}/bin/impactx.NOMPI.OMP.DP.OPMD  # [unix]
+    - if not exist %LIBRARY_PREFIX%\bin\impactx.NOMPI.OMP.DP.OPMD.exe exit 1  # [win]
     # smoke tests: execute
     - ./test.sh      # [unix and build_platform == target_platform]
     - call test.bat  # [win]

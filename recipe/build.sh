@@ -25,7 +25,6 @@ cmake \
     -DCMAKE_VERBOSE_MAKEFILE=ON           \
     -DCMAKE_INSTALL_LIBDIR=lib            \
     -DCMAKE_INSTALL_PREFIX=${PREFIX}      \
-    -DImpactX_COMPUTE=NOACC               \
     -DImpactX_IPO=${ImpactX_IPO}          \
     -DImpactX_openpmd_internal=OFF        \
     -DImpactX_pybind11_internal=OFF       \
