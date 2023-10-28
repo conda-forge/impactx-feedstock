@@ -1,6 +1,6 @@
 {% set name = "impactx" %}
 {% set version = "23.10" %}
-{% set build = 1 %}
+{% set build = 2 %}
 {% set sha256 = "e721442da05dd9fcc3cc54ac8c7afa880b56555effe4ad56063d3435a3184e24" %}
 
 package:
@@ -13,6 +13,7 @@ source:
 
 build:
   number: {{ build }}
+  skip: true  # [python_impl == 'pypy']
   run_exports:
     # releases are not (yet) compatible
     - impactx {{ version }}
@@ -24,21 +25,20 @@ requirements:
     - pybind11                               # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - ccache        # [unix]
     - clang         # [win]
     - cmake >=3.20.0
     - lld           # [win]
-    # TODO: add libxml2 dep in lld-feedstock
-    - libxml2       # [win]
     - make          # [unix]
     - ninja         # [win]
     - libgomp       # [linux]
     - llvm-openmp   # [osx or win]
   host:
+    - amrex >={{ version }}
     - pip
     - python
     - pybind11 >=2.10.1
     - pybind11-abi
+    - pyamrex >={{ version }}
     - setuptools
     - wheel
     - pkgconfig
@@ -54,6 +54,7 @@ requirements:
     - numpy >=1.15.0
     - pandas
     - python
+    - pyamrex >={{ version }}
     - scipy
 
 test:
