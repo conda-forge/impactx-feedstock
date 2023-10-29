@@ -10,6 +10,9 @@ package:
 source:
   url: https://github.com/ECP-WarpX/impactx/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  patches:
+    # Fix External AMReX & pyAMReX Builds
+    - 450.patch
 
 build:
   number: {{ build }}

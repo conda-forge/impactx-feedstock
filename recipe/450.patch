@@ -1,0 +1,116 @@
+From a8f8180fe3e36366f0e2e15e4b7f9151aa254895 Mon Sep 17 00:00:00 2001
+From: Axel Huebl <axel.huebl@plasma.ninja>
+Date: Thu, 26 Oct 2023 03:10:15 -0700
+Subject: [PATCH] Fix External AMReX Builds
+
+- print version
+- make AMReX external if pyAMReX is external
+- new AMReX 23.11+ installed CMake module paths for CMake scripts
+---
+ cmake/dependencies/ABLASTR.cmake | 17 +++++++++++++----
+ cmake/dependencies/pyAMReX.cmake |  4 ++--
+ setup.py                         |  4 ++--
+ 3 files changed, 17 insertions(+), 8 deletions(-)
+
+diff --git a/cmake/dependencies/ABLASTR.cmake b/cmake/dependencies/ABLASTR.cmake
+index c8f914d8..4082e739 100644
+--- a/cmake/dependencies/ABLASTR.cmake
++++ b/cmake/dependencies/ABLASTR.cmake
+@@ -1,4 +1,10 @@
+ macro(find_ablastr)
++    # if pyAMReX is external, AMReX must be as well
++    if(DEFINED ImpactX_pyamrex_internal AND NOT ImpactX_pyamrex_internal)
++        set(ImpactX_amrex_internal OFF CACHE BOOL
++            "Download & build AMReX" FORCE)
++    endif()
++
+     if(ImpactX_ablastr_src)
+         message(STATUS "Compiling local ABLASTR ...")
+         message(STATUS "ABLASTR source path: ${ImpactX_ablastr_src}")
+@@ -91,7 +97,7 @@ macro(find_ablastr)
+             add_subdirectory(${ImpactX_ablastr_src} _deps/localablastr-build/)
+             # TODO: this is a bit hacky, check if we find a variable like
+             #       fetchedamrex_SOURCE_DIR or FETCHCONTENT_SOURCE_DIR_FETCHEDAMREX
+-            #       that we could use for the named path instead
++            #       or AMReX_DIR or AMReX_MODULE_PATH that we could use for the named path instead
+             list(APPEND CMAKE_MODULE_PATH "${FETCHCONTENT_BASE_DIR}/fetchedamrex-src/Tools/CMake")
+         else()
+             FetchContent_Declare(fetchedablastr
+@@ -114,7 +120,7 @@ macro(find_ablastr)
+                 add_subdirectory(${fetchedablastr_SOURCE_DIR} ${fetchedablastr_BINARY_DIR})
+                 # TODO: this is a bit hacky, check if we find a variable like
+                 #       fetchedamrex_SOURCE_DIR or FETCHCONTENT_SOURCE_DIR_FETCHEDAMREX
+-                #       that we could use for the named path instead
++                #       or AMReX_DIR or AMReX_MODULE_PATH that we could use for the named path instead
+                 list(APPEND CMAKE_MODULE_PATH "${FETCHCONTENT_BASE_DIR}/fetchedamrex-src/Tools/CMake")
+             endif()
+ 
+@@ -142,6 +148,9 @@ macro(find_ablastr)
+         message(STATUS "ABLASTR: Found version '${ABLASTR_VERSION}'")
+     endif()
+ 
++    # AMReX CMake helper scripts
++    list(APPEND CMAKE_MODULE_PATH "${AMReX_DIR}/AMReXCMakeModules")
++
+     # transitive control for openPMD external
+     if(NOT ImpactX_openpmd_src AND NOT ImpactX_openpmd_internal)
+         if(ImpactX_MPI)
+@@ -169,7 +178,7 @@ set(ImpactX_openpmd_src ""
+ set(ImpactX_ablastr_repo "https://github.com/ECP-WarpX/WarpX.git"
+     CACHE STRING
+     "Repository URI to pull and build ABLASTR from if(ImpactX_ablastr_internal)")
+-set(ImpactX_ablastr_branch "23.10"
++set(ImpactX_ablastr_branch "8af2c31353193df69f29b5bcf3205adda1ba29e8"
+     CACHE STRING
+     "Repository branch for ImpactX_ablastr_repo if(ImpactX_ablastr_internal)")
+ 
+@@ -177,7 +186,7 @@ set(ImpactX_ablastr_branch "23.10"
+ set(ImpactX_amrex_repo "https://github.com/AMReX-Codes/amrex.git"
+     CACHE STRING
+     "Repository URI to pull and build AMReX from if(ImpactX_amrex_internal)")
+-set(ImpactX_amrex_branch "23.10"
++set(ImpactX_amrex_branch "be6c6415467d09da6109d27cfa218868abc1f9db"
+     CACHE STRING
+     "Repository branch for ImpactX_amrex_repo if(ImpactX_amrex_internal)")
+ 
+diff --git a/cmake/dependencies/pyAMReX.cmake b/cmake/dependencies/pyAMReX.cmake
+index 00a03d66..d88e6a2f 100644
+--- a/cmake/dependencies/pyAMReX.cmake
++++ b/cmake/dependencies/pyAMReX.cmake
+@@ -65,7 +65,7 @@ function(find_pyamrex)
+     elseif(NOT ImpactX_pyamrex_internal)
+         # TODO: MPI control
+         find_package(pyAMReX 23.10 CONFIG REQUIRED)
+-        message(STATUS "pyAMReX: Found version '${pyamrex_VERSION}'")
++        message(STATUS "pyAMReX: Found version '${pyAMReX_VERSION}'")
+     endif()
+ endfunction()
+ 
+@@ -79,7 +79,7 @@ option(ImpactX_pyamrex_internal "Download & build pyAMReX" ON)
+ set(ImpactX_pyamrex_repo "https://github.com/AMReX-Codes/pyamrex.git"
+     CACHE STRING
+     "Repository URI to pull and build pyamrex from if(ImpactX_pyamrex_internal)")
+-set(ImpactX_pyamrex_branch "23.10"
++set(ImpactX_pyamrex_branch "2669550404bf1b96dd432518d5d490f0e3979d33"
+     CACHE STRING
+     "Repository branch for ImpactX_pyamrex_repo if(ImpactX_pyamrex_internal)")
+ 
+diff --git a/setup.py b/setup.py
+index 1c8b1e36..67e79243 100644
+--- a/setup.py
++++ b/setup.py
+@@ -193,12 +193,12 @@ def build_extension(self, ext):
+ ImpactX_amrex_repo = os.environ.get(
+     "IMPACTX_AMREX_REPO", "https://github.com/AMReX-Codes/amrex.git"
+ )
+-ImpactX_amrex_branch = os.environ.get("IMPACTX_PYAMREX_BRANCH", "development")
++ImpactX_amrex_branch = os.environ.get("IMPACTX_AMREX_BRANCH")
+ # ImpactX_pyamrex_src = os.environ.get('IMPACTX_PYAMREX_SRC')
+ # ImpactX_pyamrex_internal = os.environ.get('IMPACTX_PYAMREX_INTERNAL', 'ON')
+ # ImpactX_pyamrex_repo = os.environ.get('IMPACTX_PYAMREX_REPO',
+ #    'https://github.com/AMReX-Codes/pyamrex.git')
+-# ImpactX_pyamrex_branch = os.environ.get('IMPACTX_PYAMREX_BRANCH', 'development')
++# ImpactX_pyamrex_branch = os.environ.get('IMPACTX_PYAMREX_BRANCH')
+ 
+ # extra CMake arguments
+ extra_cmake_args = []
