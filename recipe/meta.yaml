@@ -34,7 +34,8 @@ requirements:
     - make          # [unix]
     - ninja         # [win]
     - libgomp       # [linux]
-    - llvm-openmp   # [osx or win]
+    - llvm-openmp   # [osx]
+    - intel-openmp  # [win]
   host:
     - amrex >={{ version }}
     - pip
@@ -47,9 +48,6 @@ requirements:
     - pkgconfig
     - numpy >=1.15.0
     - openpmd-api >=0.15.1
-    # https://conda-forge.org/docs/maintainer/knowledge_base.html#blas
-    # https://github.com/conda-forge/impactx-feedstock/pull/22
-    - openblas         # [win]
     # ctest
     - matplotlib-base  # [build_platform == target_platform]
     - pandas           # [build_platform == target_platform]
@@ -62,9 +60,6 @@ requirements:
     - python
     - pyamrex >={{ version }}
     - scipy
-    # https://conda-forge.org/docs/maintainer/knowledge_base.html#blas
-    # https://github.com/conda-forge/impactx-feedstock/pull/22
-    - openblas         # [win]
 
 test:
   requires:
