@@ -41,23 +41,9 @@ cmake \
 cmake --build build --parallel ${CPU_COUNT}
 cmake --build build --parallel ${CPU_COUNT} --target pip_wheel
 
-# test
-#  || "${CROSSCOMPILING_EMULATOR}" != ""
+# pytest -> deferred to test.sh
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" ]]; then
-    EXCLUSION_REGEX=""
-
-    # macOS x86_64 pypy: import issue with matplotlib
-    #   AttributeError: module 'threading' has no attribute 'get_native_id'
-    # https://foss.heptapod.net/pypy/pypy/-/issues/3764
-    if [[ "${target_platform}" == "osx-64" ]]; then
-        IS_PYPY=$(${PYTHON} -c "import platform; print(int(platform.python_implementation() == 'PyPy'))")
-        if [[ ${IS_PYPY} == "1" ]]; then
-            EXCLUSION_REGEX="(plot|pytest)"
-        fi
-    fi
-
-    echo "EXCLUSION_REGEX=${EXCLUSION_REGEX}"
-    ctest --test-dir build --output-on-failure -E "${EXCLUSION_REGEX}"
+    ctest --test-dir build --output-on-failure -E "(py|analysis|plot|pytest)"
 fi
 
 # install

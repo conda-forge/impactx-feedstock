@@ -42,6 +42,6 @@ if errorlevel 1 exit 1
 %PYTHON% -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build\impactx-whl impactx
 if errorlevel 1 exit 1
 
-:: test
-ctest --test-dir build --build-config Release --output-on-failure
+:: pytest -> deferred to test.sh
+ctest --test-dir build --build-config Release --output-on-failure -E "(py|analysis|plot|pytest)"
 if errorlevel 1 exit 1

@@ -47,11 +47,6 @@ requirements:
     - python
     - setuptools
     - wheel
-    # ctest, see examples/requirements.txt
-    - matplotlib-base  # [build_platform == target_platform]
-    - pandas           # [build_platform == target_platform]
-    - pytest           # [build_platform == target_platform]
-    - scipy            # [build_platform == target_platform]
   run:
     # see requirements.txt
     - {{ pin_compatible('numpy') }}
