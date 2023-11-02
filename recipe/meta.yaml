@@ -71,7 +71,7 @@ test:
     - test.sh   # [unix]
     - test.bat  # [win]
   imports:
-    - impactx
+    - impactx  # [build_platform == target_platform]
   commands:
     - test -f ${PREFIX}/bin/impactx.NOMPI.OMP.DP.OPMD  # [unix]
     - if not exist %LIBRARY_PREFIX%\bin\impactx.NOMPI.OMP.DP.OPMD.exe exit 1  # [win]
