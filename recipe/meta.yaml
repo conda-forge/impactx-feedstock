@@ -13,6 +13,7 @@ source:
 
 build:
   number: {{ build }}
+  skip: true  # [python_impl == 'pypy']
   run_exports:
     # releases are not (yet) compatible
     - impactx {{ version }}
@@ -24,42 +25,40 @@ requirements:
     - pybind11                               # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - ccache        # [unix]
     - clang         # [win]
-    - cmake >=3.20.0
+    - cmake
     - lld           # [win]
-    # TODO: add libxml2 dep in lld-feedstock
-    - libxml2       # [win]
     - make          # [unix]
     - ninja         # [win]
     - libgomp       # [linux]
     - llvm-openmp   # [osx or win]
   host:
+    - amrex >={{ version }}
+    - numpy
+    - openpmd-api
     - pip
-    - python
-    - pybind11 >=2.10.1
+    - pyamrex >={{ version }}
+    - pybind11
     - pybind11-abi
+    - python
     - setuptools
     - wheel
-    - pkgconfig
-    - numpy >=1.15.0
-    - openpmd-api >=0.15.1
-    # ctest
-    - matplotlib-base  # [build_platform == target_platform]
-    - pandas           # [build_platform == target_platform]
-    - pytest           # [build_platform == target_platform]
-    - scipy            # [build_platform == target_platform]
   run:
-    - matplotlib-base
-    - numpy >=1.15.0
-    - pandas
+    # see requirements.txt
+    - {{ pin_compatible('numpy') }}
     - python
-    - scipy
+    - pyamrex >={{ version }}
 
 test:
   requires:
     - python
     - pytest
+    # ctest, see examples/requirements.txt
+    - matplotlib-base  # [build_platform == target_platform]
+    - openpmd-api      # [build_platform == target_platform]
+    - pandas           # [build_platform == target_platform]
+    - pytest           # [build_platform == target_platform]
+    - scipy            # [build_platform == target_platform]
   source_files:
     - examples/fodo/input_fodo.in
     - examples/fodo/run_fodo.py
