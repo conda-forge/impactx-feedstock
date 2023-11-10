@@ -23,7 +23,6 @@ cmake ^
     -DImpactX_openpmd_internal=OFF        ^
     -DImpactX_pyamrex_internal=OFF ^
     -DImpactX_pybind11_internal=OFF       ^
-    -DImpactX_LIB=ON        ^
     -DImpactX_MPI=OFF       ^
     -DImpactX_OPENPMD=ON    ^
     -DImpactX_PYTHON=ON     ^

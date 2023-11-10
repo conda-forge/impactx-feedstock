@@ -34,6 +34,8 @@ requirements:
     - llvm-openmp   # [osx or win]
   host:
     - amrex >={{ version }}
+    # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
+    - libblas =*=*blis  # [win]
     - numpy
     - openpmd-api
     - pip
@@ -46,6 +48,8 @@ requirements:
   run:
     # see requirements.txt
     - {{ pin_compatible('numpy') }}
+    # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
+    - libblas =*=*blis  # [win]
     - python
     - pyamrex >={{ version }}
 
@@ -59,6 +63,8 @@ test:
     - pandas           # [build_platform == target_platform]
     - pytest           # [build_platform == target_platform]
     - scipy            # [build_platform == target_platform]
+    # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
+    - libblas =*=*blis  # [build_platform == target_platform and win]
   source_files:
     - examples/fodo/input_fodo.in
     - examples/fodo/run_fodo.py
