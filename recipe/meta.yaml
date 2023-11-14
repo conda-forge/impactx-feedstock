@@ -59,7 +59,6 @@ test:
     - pytest
     # ctest, see examples/requirements.txt
     - matplotlib       # [build_platform == target_platform]
-    - tk               # [build_platform == target_platform and win]
     - openpmd-api      # [build_platform == target_platform]
     - pandas           # [build_platform == target_platform]
     - pytest           # [build_platform == target_platform]

@@ -21,7 +21,7 @@ cmake ^
     -DCMAKE_VERBOSE_MAKEFILE=ON           ^
     -DImpactX_amrex_internal=OFF          ^
     -DImpactX_openpmd_internal=OFF        ^
-    -DImpactX_pyamrex_internal=OFF ^
+    -DImpactX_pyamrex_internal=OFF        ^
     -DImpactX_pybind11_internal=OFF       ^
     -DImpactX_MPI=OFF       ^
     -DImpactX_OPENPMD=ON    ^
