@@ -1,7 +1,7 @@
 {% set name = "impactx" %}
-{% set version = "23.10" %}
-{% set build = 1 %}
-{% set sha256 = "e721442da05dd9fcc3cc54ac8c7afa880b56555effe4ad56063d3435a3184e24" %}
+{% set version = "23.11" %}
+{% set build = 0 %}
+{% set sha256 = "040f1453f835f1a0ff0e7e80c13e4c139fcfcc6272386fa637d0e8e3021af68a" %}
 
 package:
   name: {{ name|lower }}
@@ -13,6 +13,7 @@ source:
 
 build:
   number: {{ build }}
+  skip: true  # [python_impl == 'pypy']
   run_exports:
     # releases are not (yet) compatible
     - impactx {{ version }}
@@ -24,42 +25,46 @@ requirements:
     - pybind11                               # [build_platform != target_platform]
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - ccache        # [unix]
     - clang         # [win]
-    - cmake >=3.20.0
+    - cmake
     - lld           # [win]
-    # TODO: add libxml2 dep in lld-feedstock
-    - libxml2       # [win]
     - make          # [unix]
     - ninja         # [win]
     - libgomp       # [linux]
     - llvm-openmp   # [osx or win]
   host:
+    - amrex >={{ version }}
+    # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
+    - libblas =*=*blis  # [win]
+    - numpy
+    - openpmd-api
     - pip
-    - python
-    - pybind11 >=2.10.1
+    - pyamrex >={{ version }}
+    - pybind11
     - pybind11-abi
+    - python
     - setuptools
     - wheel
-    - pkgconfig
-    - numpy >=1.15.0
-    - openpmd-api >=0.15.1
-    # ctest
-    - matplotlib-base  # [build_platform == target_platform]
-    - pandas           # [build_platform == target_platform]
-    - pytest           # [build_platform == target_platform]
-    - scipy            # [build_platform == target_platform]
   run:
-    - matplotlib-base
-    - numpy >=1.15.0
-    - pandas
+    # see requirements.txt
+    - {{ pin_compatible('numpy') }}
+    # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
+    - libblas =*=*blis  # [win]
     - python
-    - scipy
+    - pyamrex >={{ version }}
 
 test:
   requires:
     - python
     - pytest
+    # ctest, see examples/requirements.txt
+    - matplotlib       # [build_platform == target_platform]
+    - openpmd-api      # [build_platform == target_platform]
+    - pandas           # [build_platform == target_platform]
+    - pytest           # [build_platform == target_platform]
+    - scipy            # [build_platform == target_platform]
+    # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
+    - libblas =*=*blis  # [build_platform == target_platform and win]
   source_files:
     - examples/fodo/input_fodo.in
     - examples/fodo/run_fodo.py

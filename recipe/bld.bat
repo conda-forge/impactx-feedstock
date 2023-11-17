@@ -19,9 +19,10 @@ cmake ^
     -DCMAKE_LINKER=lld-link               ^
     -DCMAKE_NM=llvm-nm                    ^
     -DCMAKE_VERBOSE_MAKEFILE=ON           ^
+    -DImpactX_amrex_internal=OFF          ^
     -DImpactX_openpmd_internal=OFF        ^
+    -DImpactX_pyamrex_internal=OFF        ^
     -DImpactX_pybind11_internal=OFF       ^
-    -DImpactX_LIB=ON        ^
     -DImpactX_MPI=OFF       ^
     -DImpactX_OPENPMD=ON    ^
     -DImpactX_PYTHON=ON     ^
@@ -31,21 +32,15 @@ if errorlevel 1 exit 1
 :: build
 cmake --build build --config Release --parallel 2
 if errorlevel 1 exit 1
-cmake --build build --config Release --parallel 2 --target pyamrex_pip_wheel
-if errorlevel 1 exit 1
 cmake --build build --config Release --parallel 2 --target pip_wheel
 if errorlevel 1 exit 1
 
 :: install
 cmake --build build --config Release --target install
 if errorlevel 1 exit 1
-%PYTHON% -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build\_deps\fetchedpyamrex-build\amrex-whl amrex
-if errorlevel 1 exit 1
 %PYTHON% -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build\impactx-whl impactx
 if errorlevel 1 exit 1
 
-:: test
-::   skip the pyAMReX tests to save CI time
-set "EXCLUSION_REGEX=AMReX"
-ctest --test-dir build --build-config Release --output-on-failure -E %EXCLUSION_REGEX%
+:: pytest -> deferred to test.sh
+ctest --test-dir build --build-config Release --output-on-failure -E "(py|analysis|plot|pytest)"
 if errorlevel 1 exit 1
