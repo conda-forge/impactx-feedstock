@@ -38,7 +38,6 @@ cmake \
 
 # build
 cmake --build build --parallel ${CPU_COUNT}
-cmake --build build --parallel ${CPU_COUNT} --target pip_wheel
 
 # pytest -> deferred to test.sh
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" ]]; then
@@ -47,10 +46,9 @@ fi
 
 # install
 cmake --build build --target install
-${PYTHON} -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build/impactx-whl impactx
+cmake --build build --target pip_install_nodeps
 
-# do not install static libs from ABLASTR
+#   do not install static libs from ABLASTR
 rm -rf ${PREFIX}/lib/libablastr_*.a
-
-# do not install static libs from ImpactX
+#   do not install static libs from ImpactX
 rm -rf ${PREFIX}/lib/libimpactx*.a

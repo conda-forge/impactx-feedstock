@@ -32,21 +32,20 @@ if errorlevel 1 exit 1
 :: build
 cmake --build build --config Release --parallel 2
 if errorlevel 1 exit 1
-cmake --build build --config Release --parallel 2 --target pip_wheel
-if errorlevel 1 exit 1
 
 :: install
 cmake --build build --config Release --target install
 if errorlevel 1 exit 1
-%PYTHON% -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build\impactx-whl impactx
+cmake --build build --config Release --target pip_install_nodeps
+if errorlevel 1 exit 1
+
+::   do not install static libs from ABLASTR
+del "%LIBRARY_PREFIX%\lib\ablastr_*.lib"
+if errorlevel 1 exit 1
+::   do not install static libs from ImpactX
+del "%LIBRARY_PREFIX%\lib\libimpactx*.lib"
 if errorlevel 1 exit 1
 
 :: pytest -> deferred to test.sh
 ctest --test-dir build --build-config Release --output-on-failure -E "(py|analysis|plot|pytest)"
 if errorlevel 1 exit 1
-
-:: do not install static libs from ABLASTR
-del "%LIBRARY_PREFIX%\lib\ablastr_*.lib"
-
-:: do not install static libs from ImpactX
-del "%LIBRARY_PREFIX%\lib\libimpactx*.lib"
