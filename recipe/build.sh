@@ -51,3 +51,6 @@ ${PYTHON} -m pip install --force-reinstall --no-index --no-deps -vv --find-links
 
 # do not install static libs from ABLASTR
 rm -rf ${PREFIX}/lib/libablastr_*.a
+
+# do not install static libs from ImpactX
+rm -rf ${PREFIX}/lib/libimpactx*.a
