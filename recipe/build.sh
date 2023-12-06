@@ -48,3 +48,6 @@ fi
 # install
 cmake --build build --target install
 ${PYTHON} -m pip install --force-reinstall --no-index --no-deps -vv --find-links=build/impactx-whl impactx
+
+# do not install static libs from ABLASTR
+rm -rf ${PREFIX}/lib/libablastr_*.a

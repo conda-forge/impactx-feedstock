@@ -44,3 +44,6 @@ if errorlevel 1 exit 1
 :: pytest -> deferred to test.sh
 ctest --test-dir build --build-config Release --output-on-failure -E "(py|analysis|plot|pytest)"
 if errorlevel 1 exit 1
+
+:: do not install static libs from ABLASTR
+del "%LIBRARY_PREFIX%\lib\ablastr_*.lib"
