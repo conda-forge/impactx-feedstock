@@ -10,10 +10,6 @@ package:
 source:
   url: https://github.com/ECP-WarpX/impactx/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
-  patches:
-    # libImpactX -> libimpactx
-    # https://github.com/ECP-WarpX/impactx/pull/481
-    - 481.patch
 
 build:
   number: {{ build }}
