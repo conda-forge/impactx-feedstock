@@ -7,7 +7,7 @@ if errorlevel 1 exit 1
 
 :: OpenMP flags
 set "CXXFLAGS=%CXXFLAGS% -openmp"
-set "LDFLAGS=%LDFLAGS% -openmp"
+:: set "LDFLAGS=%LDFLAGS% -openmp"
 
 :: configure
 cmake ^
@@ -17,6 +17,7 @@ cmake ^
     -DCMAKE_BUILD_TYPE=Release            ^
     -DCMAKE_C_COMPILER=clang-cl           ^
     -DCMAKE_CXX_COMPILER=clang-cl         ^
+    -DCMAKE_EXE_LINKER_FLAGS="-fopenmp"   ^
     -DCMAKE_INSTALL_LIBDIR=lib            ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_INSTALL_PYTHONDIR=%SP_DIR%    ^
