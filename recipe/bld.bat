@@ -5,6 +5,10 @@
 if not exist %LIBRARY_PREFIX%\bin md %LIBRARY_PREFIX%\bin
 if errorlevel 1 exit 1
 
+:: OpenMP flags
+set "CXXFLAGS=%CXXFLAGS% -openmp"
+set "LDFLAGS=%LDFLAGS% -openmp"
+
 :: configure
 cmake ^
     -S %SRC_DIR% -B build                 ^
