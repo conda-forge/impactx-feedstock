@@ -52,6 +52,7 @@ requirements:
     - libblas =*=*blis  # [win]
     - python
     - pyamrex >={{ version }}
+    - quantiphy
 
 test:
   requires:
