@@ -1,7 +1,7 @@
 {% set name = "impactx" %}
-{% set version = "24.03" %}
-{% set build = 1 %}
-{% set sha256 = "0a75e167c2d133594b712cda1fe11634f304622a8be199d5182b4ee4417ef13e" %}
+{% set version = "24.04" %}
+{% set build = 0 %}
+{% set sha256 = "b4846e1d370ad0d428093ba97a58495bb4de6de1409e914b66c7964b1baf979e" %}
 
 package:
   name: {{ name|lower }}
@@ -52,6 +52,7 @@ requirements:
     - libblas =*=*blis  # [win]
     - python
     - pyamrex >={{ version }}
+    - quantiphy
 
 test:
   requires:
