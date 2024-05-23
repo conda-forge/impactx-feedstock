@@ -12,7 +12,7 @@ if errorlevel 1 exit 1
 if errorlevel 1 exit 1
 
 :: Python: pytest
-:: Skip a test for Matplotlib bug in savefig to png in Agg backend
+:: Skip tests for Matplotlib bug in savefig to png in Agg backend
 :: https://github.com/conda-forge/impactx-feedstock/pull/23#issuecomment-1805199294
-%PYTHON% -m pytest -s -vvvv -k "not test_charge_deposition" tests\python\
+%PYTHON% -m pytest -s -vvvv -k "not (test_charge_deposition or test_df_pandas)" tests\python\
 if errorlevel 1 exit 1
