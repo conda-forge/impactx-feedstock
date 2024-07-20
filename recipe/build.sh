@@ -40,7 +40,7 @@ cmake \
 cmake --build build --parallel ${CPU_COUNT}
 
 # pytest -> deferred to test.sh
-if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" ]]; then
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
     ctest --test-dir build --output-on-failure -E "(py|analysis|plot|pytest)"
 fi
 
