@@ -1,6 +1,6 @@
 {% set name = "impactx" %}
 {% set version = "24.07" %}
-{% set build = 0 %}
+{% set build = 1 %}
 {% set sha256 = "0d10bbf16a46a4c4c8512cf9ef2b32e389a5b0ed4543f0d81277bc790222e18c" %}
 
 package:
@@ -48,7 +48,6 @@ requirements:
     - wheel
   run:
     # see requirements.txt
-    - {{ pin_compatible('numpy') }}
     # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
     - libblas =*=*blis  # [win]
     - python
