@@ -53,6 +53,15 @@ requirements:
     - python
     - pyamrex >={{ version }}
     - quantiphy
+    # see src/python/impactx/dashboard/requirements.txt
+    - pandas
+    - plotly
+    - trame
+    - trame-matplotlib
+    - trame-plotly
+    - trame-router
+    - trame-vuetify
+    - trame-xterm
 
 test:
   requires:
