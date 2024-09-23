@@ -1,6 +1,6 @@
 {% set name = "impactx" %}
 {% set version = "24.09" %}
-{% set build = 0 %}
+{% set build = 1 %}
 {% set sha256 = "96cc0c535aba31900781101236bd1d00ccf39bb855d869f0da8e2896fd2823f5" %}
 
 package:
@@ -29,12 +29,14 @@ requirements:
     - clang         # [win]
     - cmake
     - lld           # [win]
-    - make          # [unix]
-    - ninja         # [win]
     - libgomp       # [linux]
     - llvm-openmp   # [osx or win]
+    - make          # [unix]
+    - ninja         # [win]
+    - pkg-config
   host:
     - amrex >={{ version }}
+    - fftw
     # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
     - libblas =*=*blis  # [win]
     - numpy
