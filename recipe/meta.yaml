@@ -35,14 +35,14 @@ requirements:
     - ninja         # [win]
     - pkg-config
   host:
-    - amrex >={{ version }}
+    - amrex ={{ version }}
     - fftw
     # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
     - libblas =*=*blis  # [win]
     - numpy
     - openpmd-api
     - pip
-    - pyamrex >={{ version }}
+    - pyamrex ={{ version }}
     - pybind11
     - pybind11-abi
     - python
@@ -53,7 +53,7 @@ requirements:
     # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
     - libblas =*=*blis  # [win]
     - python
-    - pyamrex >={{ version }}
+    - pyamrex ={{ version }}
     - quantiphy
     # see src/python/impactx/dashboard/requirements.txt
     - pandas
