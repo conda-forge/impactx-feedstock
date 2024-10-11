@@ -2,6 +2,8 @@ MACOSX_DEPLOYMENT_TARGET:
 - '11.0'
 MACOSX_SDK_VERSION:
 - '11.0'
+ace:
+- 8.0.1
 c_compiler:
 - clang
 c_compiler_version:
@@ -11,7 +13,7 @@ c_stdlib:
 c_stdlib_version:
 - '11.0'
 channel_sources:
-- conda-forge/label/python_rc,conda-forge
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
@@ -44,4 +46,3 @@ zip_keys:
 - - python
   - numpy
   - python_impl
-  - channel_sources
