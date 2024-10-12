@@ -81,6 +81,7 @@ test:
     - examples/fodo/input_fodo.in
     - examples/fodo/run_fodo.py
     - tests/python/
+    - examples/chicane/input_chicane_csr.in
   files:
     - test.sh   # [unix]
     - test.bat  # [win]
