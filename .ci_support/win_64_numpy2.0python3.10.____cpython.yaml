@@ -1,3 +1,5 @@
+ace:
+- 8.0.1
 c_compiler:
 - vs2019
 c_stdlib:
@@ -28,4 +30,3 @@ zip_keys:
 - - python
   - numpy
   - python_impl
-  - channel_sources
