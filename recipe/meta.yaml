@@ -8,7 +8,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://github.com/ECP-WarpX/impactx/archive/{{ version }}.tar.gz
+  url: https://github.com/BLAST-ImpactX/impactx/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
@@ -106,7 +106,7 @@ about:
     It's the next generation of the IMPACT-Z code.
 
   doc_url: https://impactx.readthedocs.io
-  dev_url: https://github.com/ECP-WarpX/impactx
+  dev_url: https://github.com/BLAST-ImpactX/impactx
 
 extra:
   recipe-maintainers:
