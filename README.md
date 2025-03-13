@@ -9,7 +9,7 @@ Package license: BSD-3-Clause-LBNL
 
 Summary: ImpactX is an s-based beam dynamics code for particle accelerator research & design.
 
-Development: https://github.com/ECP-WarpX/impactx
+Development: https://github.com/BLAST-ImpactX/impactx
 
 Documentation: https://impactx.readthedocs.io
 
