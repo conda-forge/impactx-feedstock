@@ -9,7 +9,7 @@ export TEST_DIR=examples/fodo
 impactx.NOMPI.OMP.DP.OPMD ${TEST_DIR}/input_fodo.in
 
 # Python
-$PYTHON ${TEST_DIR}/run_fodo.py
+python ${TEST_DIR}/run_fodo.py
 
 # Python: pytest
-$PYTHON -m pytest -s -vvvv tests/python/
+python -m pytest -s -vvvv tests/python/
