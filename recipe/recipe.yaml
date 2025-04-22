@@ -2,8 +2,8 @@ schema_version: 1
 
 context:
   name: impactx
-  version: 25.03
-  build: 1
+  version: "25.04"
+  build: 0
 
 package:
   name: ${{ name|lower }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: 2849ffe8abeca2077056cc54edd357131c255f225eba8c67169978939be86370
+  sha256: 2e5fb76f86d319303022c2a4f7c3cfc36f8dd5e1329d4f41865fdf8061f58025
 
 build:
   skip: python_impl == "pypy"
@@ -111,10 +111,10 @@ tests:
         - if: build_platform == target_platform
           then:
             - matplotlib
-        - if: win and (build_platform == target_platform)
-          then:
+            - if: win
+              then:
             # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
-            - libblas * [build=*blis]
+                - libblas * [build=*blis]
     files:
       recipe:
         - if: unix
@@ -133,7 +133,7 @@ about:
   summary: ImpactX enables high-performance modeling of beam dynamics in particle accelerators with collective effects.
   description: |
     ImpactX enables high-performance modeling of beam dynamics in particle accelerators with collective effects.
-    
+
     This is the next generation of the IMPACT-Z code. ImpactX runs on modern
     GPUs or CPUs alike, provides user-friendly interfaces suitable for AI/ML
     workflows, has many benchmarks to ensure its correctness, and an extensive
