@@ -106,6 +106,7 @@ tests:
       run:
         - python
         - pytest
+        - selenium
         # ctest, see examples/requirements.txt
         # TODO: PyNAFF
         - if: build_platform == target_platform
