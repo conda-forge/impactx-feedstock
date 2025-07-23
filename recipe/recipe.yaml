@@ -2,8 +2,8 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "25.06"
-  build: 1
+  version: "25.07"
+  build: 0
 
 package:
   name: ${{ name|lower }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: b599a34eecce93cc645d5924541b61f1f6274f0192b67c670473dd31b9fd0bfc
+  sha256: b3b172fff1780320932488f36c039f1e64a56c599b3cbae9f71a5c7f363522fd
 
 build:
   skip: python_impl == "pypy"
