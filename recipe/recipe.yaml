@@ -106,6 +106,7 @@ tests:
       run:
         - python
         - pytest
+        - pytest-benchmark
         - selenium
         # ctest, see examples/requirements.txt
         # TODO: PyNAFF
