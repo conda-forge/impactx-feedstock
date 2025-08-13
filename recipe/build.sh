@@ -34,6 +34,7 @@ cmake \
     -DImpactX_MPI=OFF     \
     -DImpactX_OPENPMD=ON  \
     -DImpactX_PYTHON=ON   \
+    -DImpactX_SIMD=ON     \
     -DPython_EXECUTABLE=${PYTHON} \
     -DPython_INCLUDE_DIR=$(${PYTHON} -c "from sysconfig import get_paths as gp; print(gp()['include'])")
 

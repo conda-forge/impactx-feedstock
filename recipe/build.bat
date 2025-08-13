@@ -27,6 +27,7 @@ cmake ^
     -DImpactX_MPI=OFF       ^
     -DImpactX_OPENPMD=ON    ^
     -DImpactX_PYTHON=ON     ^
+    -DImpactX_SIMD=ON       ^
     -DPython_EXECUTABLE=%PYTHON%
 if errorlevel 1 exit 1
 
