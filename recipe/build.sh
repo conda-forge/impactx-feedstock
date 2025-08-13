@@ -17,6 +17,13 @@ if [[ ${target_platform} =~ osx.* ]]; then
     ImpactX_IPO=OFF
 fi
 
+# Precision variants
+if [[ ${impactx_precision} == "dp" ]]; then
+    export PRECISION="DOUBLE"
+else
+    export PRECISION="SINGLE"
+fi
+
 # configure
 cmake \
     -S ${SRC_DIR} -B build                \
@@ -33,6 +40,7 @@ cmake \
     -DImpactX_FFT=ON      \
     -DImpactX_MPI=OFF     \
     -DImpactX_OPENPMD=ON  \
+    -DImpactX_PRECISION=${PRECISION} \
     -DImpactX_PYTHON=ON   \
     -DImpactX_SIMD=ON     \
     -DPython_EXECUTABLE=${PYTHON} \

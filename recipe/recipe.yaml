@@ -15,7 +15,9 @@ source:
 
 build:
   skip: python_impl == "pypy"
-  number: ${{ build }}
+  # prioritize DP builds if unspecified
+  number: ${{ build | int + 100 if impactx_precision == "dp" else build }}
+  string: nompi_${{ impactx_precision }}_h${{ hash }}_${{ build | int + 100 if impactx_precision == "dp" else build }}
 
 requirements:
   build:
@@ -43,7 +45,7 @@ requirements:
     - pkg-config
 
   host:
-    - amrex ==${{ version }}[build=nompi_*]
+    - amrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
     - fftw
     - if: win
       then:
@@ -52,7 +54,7 @@ requirements:
     - numpy
     - openpmd-api * [build=nompi_*]
     - pip
-    - pyamrex ==${{ version }}[build=nompi_*]
+    - pyamrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
     - pybind11
     - pybind11-abi
     - python
@@ -65,7 +67,7 @@ requirements:
         # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
         - libblas * [build=*blis]
     # see requirements.txt
-    - pyamrex ==${{ version }}[build=nompi_*]
+    - pyamrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
     - python
     - scipy
     - quantiphy
@@ -80,6 +82,8 @@ requirements:
     - trame-xterm
 
   run_exports:
+    # strict runtime dependency on build-time DP/SP variant
+    - ${{ name }} * ${{ impactx_precision }}_*
     # releases are not (yet) compatible
     - impactx ==${{ version }}
 
