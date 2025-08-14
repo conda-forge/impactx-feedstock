@@ -1,4 +1,4 @@
-From 883674e8d7c4e7b76e65cc666ff0bdb7fe5f212b Mon Sep 17 00:00:00 2001
+From 940fd0a18977cb5aaa64303c6520fa9cfe140f61 Mon Sep 17 00:00:00 2001
 From: Axel Huebl <axel.huebl@plasma.ninja>
 Date: Wed, 13 Aug 2025 22:02:11 -0700
 Subject: [PATCH] test_charge_deposition: SP Tolerance
@@ -10,7 +10,7 @@ so it passes in SP and DP.
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/python/test_charge_deposition.py b/tests/python/test_charge_deposition.py
-index ed2e32ec..71519769 100755
+index ed2e32ec..e7246d80 100755
 --- a/tests/python/test_charge_deposition.py
 +++ b/tests/python/test_charge_deposition.py
 @@ -50,7 +50,7 @@ def test_charge_deposition(save_png=True):
@@ -18,7 +18,7 @@ index ed2e32ec..71519769 100755
  
      beam_charge = dV * rs  # in C
 -    assert math.isclose(beam_charge, -1.0e-9, rel_tol=1.0e-8)
-+    assert math.isclose(beam_charge, -1.0e-9, rel_tol=7.0e-7)
++    assert math.isclose(beam_charge, -1.0e-9, rel_tol=8.8e-7)
  
      half_z = sim.n_cell[2] // 2  # order: x,y,z
  
