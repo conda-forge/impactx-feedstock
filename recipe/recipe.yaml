@@ -12,6 +12,9 @@ package:
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
   sha256: 5eff95f40041ececc50e81648dd5fdb867ba97345a61f2fa70e5fd15242d3132
+  patches:
+    # SIMD portable masks, C++20 - fix for macOS/Windows
+    - 1092.patch
 
 build:
   skip: python_impl == "pypy"

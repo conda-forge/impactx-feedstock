@@ -1,0 +1,60 @@
+From 5b92ff8a485e58cd796ecd43bc420186d876d394 Mon Sep 17 00:00:00 2001
+From: Axel Huebl <axel.huebl@plasma.ninja>
+Date: Wed, 13 Aug 2025 12:27:43 -0700
+Subject: [PATCH] SIMD: Portable Masks, C++20
+
+See https://github.com/AMReX-Codes/amrex/pull/4607
+---
+ CMakeLists.txt          | 8 +++++++-
+ src/elements/Aperture.H | 2 +-
+ src/elements/QuadEdge.H | 2 +-
+ 3 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5ae0a27e..758850c6 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -264,7 +264,13 @@ add_subdirectory(src)
+ 
+ # C++ properties: at least a C++17 capable compiler is needed
+ foreach(ImpactX_tgt IN LISTS _ALL_TARGETS)
+-    target_compile_features(${ImpactX_tgt} PUBLIC cxx_std_17)
++    if(ImpactX_SIMD)
++        # vir::cvt
++        # https://github.com/mattkretz/vir-simd/issues/45
++        target_compile_features(${ImpactX_tgt} PUBLIC cxx_std_20)
++    else()
++        target_compile_features(${ImpactX_tgt} PUBLIC cxx_std_17)
++    endif()
+ endforeach()
+ set_target_properties(${_ALL_TARGETS} PROPERTIES
+     CXX_EXTENSIONS OFF
+diff --git a/src/elements/Aperture.H b/src/elements/Aperture.H
+index 81b078e0..c0e44cc8 100644
+--- a/src/elements/Aperture.H
++++ b/src/elements/Aperture.H
+@@ -170,7 +170,7 @@ namespace impactx::elements
+             T_Real const sy = y;
+             VBool const shift_x = m_shift_odd_x == false ? VBool{false} : fmod(floor((y+dy)/m_repeat_y), 2) != T_Real{0};
+ #ifdef AMREX_USE_SIMD
+-            amrex::simd::stdx::where(shift_x.__cvt(), sx) += dx;
++            amrex::simd::stdx::where(shift_x, sx) += dx;
+ #else
+             sx += shift_x ? dx : 0_prt;
+ #endif
+diff --git a/src/elements/QuadEdge.H b/src/elements/QuadEdge.H
+index 5c9fc150..f3f72ed9 100644
+--- a/src/elements/QuadEdge.H
++++ b/src/elements/QuadEdge.H
+@@ -110,7 +110,7 @@ namespace impactx::elements
+             m_g = m_unit == 1 ? m_k / refpart.rigidity_Tm() : m_k;
+ 
+             // the global scale constant; sign depends on entry or exit
+-            m_a = m_flag * (-1_prt * m_g / 12.0_prt);
++            m_a = static_cast<amrex::ParticleReal>(m_flag) * (-1_prt * m_g / 12.0_prt);
+         }
+ 
+         /** This is a quadedge functor, so that a variable of this type can be used like a
+-- 
+2.43.0
+
