@@ -17,6 +17,8 @@ source:
     - 1092.patch
     # SIMD No complex on Windows
     - 1093.patch
+    # SP PyTest Charge Deposition Tolerance
+    - 1094.patch
 
 build:
   skip: python_impl == "pypy"
