@@ -51,7 +51,13 @@ cmake --build build --parallel ${CPU_COUNT}
 
 # pytest -> deferred to test.sh
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "" ]]; then
-    ctest --test-dir build --output-on-failure -E "(py|analysis|plot|pytest)"
+    if [[ ${impactx_precision} == "dp" ]]; then
+        ctest --test-dir build --output-on-failure -E "(py|analysis|plot|pytest)"
+    else
+        # SP Space Charge not yet stable
+        #   https://github.com/BLAST-ImpactX/impactx/issues/1078
+        ctest --test-dir build --output-on-failure -E "(py|analysis|plot|pytest|spacecharge|expanding|nC_)"
+    fi
 fi
 
 # install

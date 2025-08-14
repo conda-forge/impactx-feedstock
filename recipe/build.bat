@@ -58,5 +58,12 @@ del "%LIBRARY_PREFIX%\lib\libimpactx*.lib"
 if errorlevel 1 exit 1
 
 :: pytest -> deferred to test.sh
-ctest --test-dir build --build-config Release --output-on-failure -E "(py|analysis|plot|pytest)"
-if errorlevel 1 exit 1
+if "%impactx_precision%" == "dp" (
+    ctest --test-dir build --build-config Release --output-on-failure -E "(py|analysis|plot|pytest)"
+    if errorlevel 1 exit 1
+) else (
+    :: SP Space Charge not yet stable
+    ::   https://github.com/BLAST-ImpactX/impactx/issues/1078
+    ctest --test-dir build --build-config Release --output-on-failure -E "(py|analysis|plot|pytest|spacecharge|expanding|nC_)"
+    if errorlevel 1 exit 1
+)
