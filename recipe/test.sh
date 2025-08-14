@@ -9,7 +9,11 @@ export TEST_DIR=examples/fodo
 PRECISION=$($(which impactx.NOMPI.OMP.SP.OPMD >/dev/null) && echo "SINGLE" || echo "DOUBLE")
 
 # executable
-impactx.NOMPI.OMP.DP.OPMD ${TEST_DIR}/input_fodo.in
+if [[ ${PRECISION} == "DOUBLE" ]]; then
+    impactx.NOMPI.OMP.DP.OPMD ${TEST_DIR}/input_fodo.in
+else
+    impactx.NOMPI.OMP.SP.OPMD ${TEST_DIR}/input_fodo.in
+fi
 
 # Python
 python ${TEST_DIR}/run_fodo.py
@@ -17,8 +21,8 @@ python ${TEST_DIR}/run_fodo.py
 # Python: pytest
 #   SP Space Charge not yet stable
 #   https://github.com/BLAST-ImpactX/impactx/issues/1078
-export SP_IGNORE=""
+export TESTS_MATCH="not matchallyay"
 if [[ ${PRECISION} == "SINGLE" ]]; then
-    export SP_IGNORE='-k "not (spacecharge or expanding or nC_)"'
+    export TESTS_MATCH="not (spacecharge or expanding or nC_)"
 fi
-python -m pytest -s -vvvv ${SP_IGNORE} --ignore tests/python/dashboard tests/python/
+python -m pytest -s -vvvv -k "${TESTS_MATCH}" --ignore tests/python/dashboard tests/python/

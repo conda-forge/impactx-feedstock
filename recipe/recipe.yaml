@@ -99,12 +99,18 @@ tests:
       pip_check: false
   - package_contents:
       files:
-        - if: unix
+        - if: unix and impactx_precision == "dp"
           then:
             - bin/impactx.NOMPI.OMP.DP.OPMD
-        - if: win
+        - if: unix and impactx_precision == "sp"
+          then:
+            - bin/impactx.NOMPI.OMP.SP.OPMD
+        - if: win and impactx_precision == "dp"
           then:
             - Library/bin/impactx.NOMPI.OMP.DP.OPMD.exe
+        - if: win and impactx_precision == "sp"
+          then:
+            - Library/bin/impactx.NOMPI.OMP.SP.OPMD.exe
 
   - script:
       - echo "Testing..."
