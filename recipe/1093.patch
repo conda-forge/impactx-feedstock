@@ -1,0 +1,54 @@
+From 7c34b1ec10954fb2d9917a2063104af74d9bcf43 Mon Sep 17 00:00:00 2001
+From: Axel Huebl <axel.huebl@plasma.ninja>
+Date: Wed, 13 Aug 2025 20:59:50 -0700
+Subject: [PATCH] SIMD: No Complex on Windows
+
+Have to disable SIMD for the Multipole because our Complex
+SIMD implementation is still a bit wonky and has alignment
+errors on Windows.
+
+https://github.com/AMReX-Codes/amrex/issues/4609
+---
+ src/elements/ExactMultipole.H | 7 +++++--
+ src/elements/Multipole.H      | 7 +++++--
+ 2 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/src/elements/ExactMultipole.H b/src/elements/ExactMultipole.H
+index 44889ff7..2ea2be5d 100644
+--- a/src/elements/ExactMultipole.H
++++ b/src/elements/ExactMultipole.H
+@@ -66,8 +66,11 @@ namespace impactx::elements
+       public mixin::Thick,
+       public mixin::Alignment,
+       public mixin::PipeAperture,
+-      public mixin::NoFinalize,
+-      public amrex::simd::Vectorized<amrex::simd::native_simd_size_particlereal>
++      public mixin::NoFinalize
++#ifndef _WIN32
++      // https://github.com/AMReX-Codes/amrex/issues/4609
++      , public amrex::simd::Vectorized<amrex::simd::native_simd_size_particlereal>
++#endif
+     {
+         static constexpr auto type = "ExactMultipole";
+         using PType = ImpactXParticleContainer::ParticleType;
+diff --git a/src/elements/Multipole.H b/src/elements/Multipole.H
+index 48621adc..88d9f13f 100644
+--- a/src/elements/Multipole.H
++++ b/src/elements/Multipole.H
+@@ -35,8 +35,11 @@ namespace impactx::elements
+       public mixin::LinearTransport<Multipole>,
+       public mixin::Thin,
+       public mixin::Alignment,
+-      public mixin::NoFinalize,
+-      public amrex::simd::Vectorized<amrex::simd::native_simd_size_particlereal>
++      public mixin::NoFinalize
++#ifndef _WIN32
++      // https://github.com/AMReX-Codes/amrex/issues/4609
++      , public amrex::simd::Vectorized<amrex::simd::native_simd_size_particlereal>
++#endif
+     {
+         static constexpr auto type = "Multipole";
+         using PType = ImpactXParticleContainer::ParticleType;
+-- 
+2.43.0
+

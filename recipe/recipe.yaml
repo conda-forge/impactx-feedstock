@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "25.07"
+  version: "25.08"
   build: 0
 
 package:
@@ -11,11 +11,20 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: b3b172fff1780320932488f36c039f1e64a56c599b3cbae9f71a5c7f363522fd
+  sha256: 5eff95f40041ececc50e81648dd5fdb867ba97345a61f2fa70e5fd15242d3132
+  patches:
+    # SIMD portable masks, C++20 - fix for macOS/Windows
+    - 1092.patch
+    # SIMD No complex on Windows
+    - 1093.patch
+    # SP PyTest Charge Deposition Tolerance
+    - 1094.patch
 
 build:
   skip: python_impl == "pypy"
-  number: ${{ build }}
+  # prioritize DP builds if unspecified
+  number: ${{ build | int + 100 if impactx_precision == "dp" else build }}
+  string: nompi_${{ impactx_precision }}_h${{ hash }}_${{ build | int + 100 if impactx_precision == "dp" else build }}
 
 requirements:
   build:
@@ -43,7 +52,7 @@ requirements:
     - pkg-config
 
   host:
-    - amrex ==${{ version }}[build=nompi_*]
+    - amrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
     - fftw
     - if: win
       then:
@@ -52,11 +61,12 @@ requirements:
     - numpy
     - openpmd-api * [build=nompi_*]
     - pip
-    - pyamrex ==${{ version }}[build=nompi_*]
+    - pyamrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
     - pybind11
     - pybind11-abi
     - python
     - setuptools
+    - vir-simd
     - wheel
   run:
     - if: win
@@ -64,7 +74,7 @@ requirements:
         # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
         - libblas * [build=*blis]
     # see requirements.txt
-    - pyamrex ==${{ version }}[build=nompi_*]
+    - pyamrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
     - python
     - scipy
     - quantiphy
@@ -79,6 +89,8 @@ requirements:
     - trame-xterm
 
   run_exports:
+    # strict runtime dependency on build-time DP/SP variant
+    - ${{ name }} * ${{ impactx_precision }}_*
     # releases are not (yet) compatible
     - impactx ==${{ version }}
 
@@ -89,12 +101,18 @@ tests:
       pip_check: false
   - package_contents:
       files:
-        - if: unix
+        - if: unix and impactx_precision == "dp"
           then:
             - bin/impactx.NOMPI.OMP.DP.OPMD
-        - if: win
+        - if: unix and impactx_precision == "sp"
+          then:
+            - bin/impactx.NOMPI.OMP.SP.OPMD
+        - if: win and impactx_precision == "dp"
           then:
             - Library/bin/impactx.NOMPI.OMP.DP.OPMD.exe
+        - if: win and impactx_precision == "sp"
+          then:
+            - Library/bin/impactx.NOMPI.OMP.SP.OPMD.exe
 
   - script:
       - echo "Testing..."

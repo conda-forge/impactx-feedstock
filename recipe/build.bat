@@ -5,6 +5,14 @@
 if not exist %LIBRARY_PREFIX%\bin md %LIBRARY_PREFIX%\bin
 if errorlevel 1 exit 1
 
+:: Precision variants
+if "%impactx_precision%" == "dp" (
+    set "PRECISION=DOUBLE"
+) else (
+    set "PRECISION=SINGLE"
+)
+
+
 :: configure
 cmake ^
     -S %SRC_DIR% -B build                 ^
@@ -26,7 +34,9 @@ cmake ^
     -DImpactX_FFT=ON        ^
     -DImpactX_MPI=OFF       ^
     -DImpactX_OPENPMD=ON    ^
+    -DImpactX_PRECISION="%PRECISION%" ^
     -DImpactX_PYTHON=ON     ^
+    -DImpactX_SIMD=ON       ^
     -DPython_EXECUTABLE=%PYTHON%
 if errorlevel 1 exit 1
 
@@ -48,5 +58,12 @@ del "%LIBRARY_PREFIX%\lib\libimpactx*.lib"
 if errorlevel 1 exit 1
 
 :: pytest -> deferred to test.sh
-ctest --test-dir build --build-config Release --output-on-failure -E "(py|analysis|plot|pytest)"
-if errorlevel 1 exit 1
+if "%impactx_precision%" == "dp" (
+    ctest --test-dir build --build-config Release --output-on-failure -E "(py|analysis|plot|pytest)"
+    if errorlevel 1 exit 1
+) else (
+    :: SP Space Charge not yet stable
+    ::   https://github.com/BLAST-ImpactX/impactx/issues/1078
+    ctest --test-dir build --build-config Release --output-on-failure -E "(py|analysis|plot|pytest|spacecharge|expanding|nC_)"
+    if errorlevel 1 exit 1
+)
