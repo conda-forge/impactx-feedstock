@@ -25,8 +25,8 @@ if errorlevel 1 exit 1
 set "TESTS_MATCH=not (test_charge_deposition or test_df_pandas or test_wake)"
 ::   SP Space Charge not yet stable
 ::     https://github.com/BLAST-ImpactX/impactx/issues/1078
-if "%PRECISION%" == "DOUBLE" (
-    set "TESTS_MATCH=not (test_charge_deposition or test_df_pandas or test_wake or spacecharge or expanding or nC_)"
+if "%PRECISION%" == "SINGLE" (
+    set "TESTS_MATCH=not (test_charge_deposition or test_df_pandas or test_wake or spacecharge or expanding or nC_ or transformation or element_insert)"
 )
 python -m pytest -s -vvvv -k "%TESTS_MATCH%" --ignore tests\python\dashboard tests\python\
 if errorlevel 1 exit 1

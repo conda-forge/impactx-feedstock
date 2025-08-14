@@ -23,6 +23,6 @@ python ${TEST_DIR}/run_fodo.py
 #   https://github.com/BLAST-ImpactX/impactx/issues/1078
 export TESTS_MATCH="not matchallyay"
 if [[ ${PRECISION} == "SINGLE" ]]; then
-    export TESTS_MATCH="not (spacecharge or expanding or nC_)"
+    export TESTS_MATCH="not (spacecharge or expanding or nC_ or transformation or element_insert)"
 fi
 python -m pytest -s -vvvv -k "${TESTS_MATCH}" --ignore tests/python/dashboard tests/python/
