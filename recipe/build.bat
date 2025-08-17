@@ -8,8 +8,10 @@ if errorlevel 1 exit 1
 :: Precision variants
 if "%impactx_precision%" == "dp" (
     set "PRECISION=DOUBLE"
+    set "ImpactX_FASTMATH=OFF"
 ) else (
     set "PRECISION=SINGLE"
+    set "ImpactX_FASTMATH=ON"
 )
 
 
@@ -31,6 +33,7 @@ cmake ^
     -DImpactX_openpmd_internal=OFF        ^
     -DImpactX_pyamrex_internal=OFF        ^
     -DImpactX_pybind11_internal=OFF       ^
+    -DImpactX_FASTMATH="%ImpactX_FASTMATH%" ^
     -DImpactX_FFT=ON        ^
     -DImpactX_MPI=OFF       ^
     -DImpactX_OPENPMD=ON    ^

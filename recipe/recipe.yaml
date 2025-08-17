@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: impactx
   version: "25.08"
-  build: 0
+  build: 1
 
 package:
   name: ${{ name|lower }}
@@ -19,6 +19,8 @@ source:
     - 1093.patch
     # SP PyTest Charge Deposition Tolerance
     - 1094.patch
+    # Fast-Math with pre-build AMReX
+    - 1101.patch
 
 build:
   skip: python_impl == "pypy"
