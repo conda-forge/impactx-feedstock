@@ -20,8 +20,10 @@ fi
 # Precision variants
 if [[ ${impactx_precision} == "dp" ]]; then
     export PRECISION="DOUBLE"
+    export ImpactX_FASTMATH=OFF
 else
     export PRECISION="SINGLE"
+    export ImpactX_FASTMATH=ON
 fi
 
 # configure
@@ -37,6 +39,7 @@ cmake \
     -DImpactX_openpmd_internal=OFF        \
     -DImpactX_pyamrex_internal=OFF        \
     -DImpactX_pybind11_internal=OFF       \
+    -DImpactX_FASTMATH=${ImpactX_FASTMATH} \
     -DImpactX_FFT=ON      \
     -DImpactX_MPI=OFF     \
     -DImpactX_OPENPMD=ON  \
