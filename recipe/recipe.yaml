@@ -2,8 +2,8 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "25.08"
-  build: 1
+  version: "25.09"
+  build: 0
 
 package:
   name: ${{ name|lower }}
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: 5eff95f40041ececc50e81648dd5fdb867ba97345a61f2fa70e5fd15242d3132
+  sha256: db32861ae2b0c7c23f0049be5e0b5da88e9e47839d26603e9529a1523efc3975
   patches:
     # SIMD portable masks, C++20 - fix for macOS/Windows
     - 1092.patch
