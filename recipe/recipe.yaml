@@ -12,15 +12,6 @@ package:
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
   sha256: db32861ae2b0c7c23f0049be5e0b5da88e9e47839d26603e9529a1523efc3975
-  patches:
-    # SIMD portable masks, C++20 - fix for macOS/Windows
-    - 1092.patch
-    # SIMD No complex on Windows
-    - 1093.patch
-    # SP PyTest Charge Deposition Tolerance
-    - 1094.patch
-    # Fast-Math with pre-build AMReX
-    - 1101.patch
 
 build:
   skip: python_impl == "pypy"
