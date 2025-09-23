@@ -1,0 +1,23 @@
+From 81703fd8d6dcbeffc4c48cd2a9cc84d67af6d0ab Mon Sep 17 00:00:00 2001
+From: Axel Huebl <axel.huebl@plasma.ninja>
+Date: Tue, 23 Sep 2025 11:41:24 +0200
+Subject: [PATCH] Fix: `Config.precision`
+
+Only `AMREX_USE_FLOAT` exists...
+---
+ src/python/ImpactX.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/python/ImpactX.cpp b/src/python/ImpactX.cpp
+index 7dc097859..7ed9e27c2 100644
+--- a/src/python/ImpactX.cpp
++++ b/src/python/ImpactX.cpp
+@@ -699,7 +699,7 @@ void init_ImpactX (py::module& m)
+         .def_property_readonly_static(
+             "precision",
+             [](py::object){
+-#ifdef AMREX_SINGLE_PRECISION
++#ifdef AMREX_USE_FLOAT
+                 return "SINGLE";
+ #else
+                 return "DOUBLE";
