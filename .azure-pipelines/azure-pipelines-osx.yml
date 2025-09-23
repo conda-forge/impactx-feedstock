@@ -5,7 +5,7 @@
 jobs:
 - job: osx
   pool:
-    vmImage: macOS-13
+    vmImage: macOS-15
   strategy:
     matrix:
       osx_64_impactx_precisiondppython3.10.____cpython:
@@ -20,9 +20,6 @@ jobs:
       osx_64_impactx_precisiondppython3.13.____cp313:
         CONFIG: osx_64_impactx_precisiondppython3.13.____cp313
         UPLOAD_PACKAGES: 'True'
-      osx_64_impactx_precisiondppython3.9.____cpython:
-        CONFIG: osx_64_impactx_precisiondppython3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
       osx_64_impactx_precisionsppython3.10.____cpython:
         CONFIG: osx_64_impactx_precisionsppython3.10.____cpython
         UPLOAD_PACKAGES: 'True'
@@ -34,9 +31,6 @@ jobs:
         UPLOAD_PACKAGES: 'True'
       osx_64_impactx_precisionsppython3.13.____cp313:
         CONFIG: osx_64_impactx_precisionsppython3.13.____cp313
-        UPLOAD_PACKAGES: 'True'
-      osx_64_impactx_precisionsppython3.9.____cpython:
-        CONFIG: osx_64_impactx_precisionsppython3.9.____cpython
         UPLOAD_PACKAGES: 'True'
       osx_arm64_impactx_precisiondppython3.10.____cpython:
         CONFIG: osx_arm64_impactx_precisiondppython3.10.____cpython
@@ -50,9 +44,6 @@ jobs:
       osx_arm64_impactx_precisiondppython3.13.____cp313:
         CONFIG: osx_arm64_impactx_precisiondppython3.13.____cp313
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_impactx_precisiondppython3.9.____cpython:
-        CONFIG: osx_arm64_impactx_precisiondppython3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
       osx_arm64_impactx_precisionsppython3.10.____cpython:
         CONFIG: osx_arm64_impactx_precisionsppython3.10.____cpython
         UPLOAD_PACKAGES: 'True'
@@ -65,10 +56,6 @@ jobs:
       osx_arm64_impactx_precisionsppython3.13.____cp313:
         CONFIG: osx_arm64_impactx_precisionsppython3.13.____cp313
         UPLOAD_PACKAGES: 'True'
-      osx_arm64_impactx_precisionsppython3.9.____cpython:
-        CONFIG: osx_arm64_impactx_precisionsppython3.9.____cpython
-        UPLOAD_PACKAGES: 'True'
-    maxParallel: 17
   timeoutInMinutes: 360
   variables: {}
 
