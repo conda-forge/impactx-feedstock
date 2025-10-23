@@ -12,9 +12,6 @@ package:
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
   sha256: 0bf28a46dd122025693e4db78ba14c3b9e4adf92cc81090a0b40f61e805a5677
-  patches:
-    # Fix Config.precision for SP
-    - 1156.patch
 
 build:
   skip: python_impl == "pypy"
@@ -70,7 +67,7 @@ requirements:
         # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
         - libblas * [build=*blis]
     # see requirements.txt
-    - pals-schema
+    - pals-schema~=0.1.1
     - pyamrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
     - python
     - scipy
