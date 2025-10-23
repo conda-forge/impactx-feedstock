@@ -67,7 +67,7 @@ requirements:
         # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
         - libblas * [build=*blis]
     # see requirements.txt
-    - pals-schema~=0.1.1
+    - pals-schema >=0.1.1,<0.2.0
     - pyamrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
     - python
     - scipy
