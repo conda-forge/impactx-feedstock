@@ -23,7 +23,7 @@ cmake ^
     -DCMAKE_BUILD_TYPE=Release            ^
     -DCMAKE_C_COMPILER=clang-cl           ^
     -DCMAKE_CXX_COMPILER=clang-cl         ^
-    -DCMAKE_INSTALL_LIBDIR=lib            ^
+    -DCMAKE_INSTALL_LIBDIR=%LIBRARY_PREFIX%/lib ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DCMAKE_INSTALL_PYTHONDIR=%SP_DIR%    ^
     -DCMAKE_LINKER=lld-link               ^
