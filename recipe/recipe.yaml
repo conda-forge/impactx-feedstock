@@ -140,6 +140,7 @@ tests:
         - examples/fodo/run_fodo.py
         - tests/python/
         - examples/chicane/input_chicane_csr.in
+        - examples/expanding_beam/input_expanding_fft_2D.in
 
 about:
   license: BSD-3-Clause-LBNL
