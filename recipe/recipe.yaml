@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "25.10"
+  version: "25.11"
   build: 0
 
 package:
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: 0bf28a46dd122025693e4db78ba14c3b9e4adf92cc81090a0b40f61e805a5677
+  sha256: 1902e80f5534a82b491dec6a5aeacebc92e2091bdb346e1d1525cc197a16dc66
   patches:
     # Install Python Wrappers w/o Test
     - 1200.patch
