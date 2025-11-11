@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "25.10"
+  version: "25.11"
   build: 0
 
 package:
@@ -11,10 +11,10 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: 0bf28a46dd122025693e4db78ba14c3b9e4adf92cc81090a0b40f61e805a5677
+  sha256: 1902e80f5534a82b491dec6a5aeacebc92e2091bdb346e1d1525cc197a16dc66
   patches:
-    # Install Python Wrappers w/o Test
-    - 1200.patch
+    # SP tolerances from https://github.com/BLAST-ImpactX/impactx/pull/899
+    - 0001-Pytest-SP-Tolerances.patch
 
 build:
   skip: python_impl == "pypy"
@@ -70,7 +70,7 @@ requirements:
         # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
         - libblas * [build=*blis]
     # see requirements.txt
-    - pals-schema >=0.1.1,<0.2.0
+    - pals-schema >=0.2.0,<0.3.0
     - pyamrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
     - python
     - scipy
@@ -143,6 +143,7 @@ tests:
         - examples/fodo/run_fodo.py
         - tests/python/
         - examples/chicane/input_chicane_csr.in
+        - examples/expanding_beam/input_expanding_fft_2D.in
 
 about:
   license: BSD-3-Clause-LBNL
