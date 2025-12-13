@@ -12,9 +12,6 @@ package:
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
   sha256: 735e11f3e1a8d6f54a3ab08634e6d4a1ab56658e4bb90183630d9e75aa180d73
-  patches:
-    # SP tolerances from https://github.com/BLAST-ImpactX/impactx/pull/899
-    - 0001-Pytest-SP-Tolerances.patch
 
 build:
   skip: python_impl == "pypy"
