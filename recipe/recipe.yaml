@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "25.11"
+  version: "25.12"
   build: 0
 
 package:
@@ -11,10 +11,7 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: 1902e80f5534a82b491dec6a5aeacebc92e2091bdb346e1d1525cc197a16dc66
-  patches:
-    # SP tolerances from https://github.com/BLAST-ImpactX/impactx/pull/899
-    - 0001-Pytest-SP-Tolerances.patch
+  sha256: 735e11f3e1a8d6f54a3ab08634e6d4a1ab56658e4bb90183630d9e75aa180d73
 
 build:
   skip: python_impl == "pypy"
@@ -165,5 +162,4 @@ extra:
     - ax3l
     - cemitch99
     - EZoni
-    - n01r
     - RemiLehe
