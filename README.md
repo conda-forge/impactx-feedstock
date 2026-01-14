@@ -590,8 +590,4 @@ Feedstock Maintainers
 * [@RemiLehe](https://github.com/RemiLehe/)
 * [@ax3l](https://github.com/ax3l/)
 * [@cemitch99](https://github.com/cemitch99/)
-* [@n01r](https://github.com/n01r/)
-
-
-<!-- dummy commit to enable rerendering -->
 
