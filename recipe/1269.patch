@@ -1,0 +1,72 @@
+From b0358cd7824eefb4d7b5cb69e6462c9915e3f621 Mon Sep 17 00:00:00 2001
+From: Axel Huebl <axel.huebl@plasma.ninja>
+Date: Sat, 17 Jan 2026 12:24:11 -0800
+Subject: [PATCH 1/2] Fix: Dashboard Examples `get_impactx_root_dir` Removed
+
+Removed in #1140 and load broken.
+---
+ src/python/impactx/dashboard/Toolbar/examples_loader/loader.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/python/impactx/dashboard/Toolbar/examples_loader/loader.py b/src/python/impactx/dashboard/Toolbar/examples_loader/loader.py
+index 969933cbb..7a7412e77 100644
+--- a/src/python/impactx/dashboard/Toolbar/examples_loader/loader.py
++++ b/src/python/impactx/dashboard/Toolbar/examples_loader/loader.py
+@@ -13,6 +13,7 @@
+ 
+ state.impactx_example_list = []
+ 
++IMPACTX_PYTHON_ROOT = Path(__file__).resolve().parents[3]
+ 
+ DASHBOARD_EXAMPLES = {
+     "fodo/run_fodo.py",
+@@ -64,7 +65,7 @@ def _get_example_content(file_name: str) -> dict:
+         Retrieve the selected ImpactX example file and populate the UI with its values.
+         """
+ 
+-        impactx_directory = GeneralFunctions.get_impactx_root_dir()
++        impactx_directory = IMPACTX_PYTHON_ROOT
+         impactx_example_file_path = impactx_directory / "examples" / file_name
+ 
+         file_content_as_str = impactx_example_file_path.read_text()
+
+From c25759466db157ce37d0e83633b08160b26be025 Mon Sep 17 00:00:00 2001
+From: Axel Huebl <axel.huebl@plasma.ninja>
+Date: Sat, 17 Jan 2026 12:28:10 -0800
+Subject: [PATCH 2/2] Dashboard Example Install: Symlink
+
+Remove the CMake logic that copies examples and replace
+with implicit copy from symlink. The prior logic caused
+issues on Windows with Conda-Forge builds.
+---
+ CMakeLists.txt              | 7 -------
+ src/python/impactx/examples | 1 +
+ 2 files changed, 1 insertion(+), 7 deletions(-)
+ create mode 120000 src/python/impactx/examples
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9e5db911c..d3ad04422 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -499,13 +499,6 @@ if(ImpactX_PYTHON)
+             ${ImpactX_SOURCE_DIR}/src/python/impactx
+             $<TARGET_FILE_DIR:pyImpactX>
+     )
+-
+-    # copy examples into pip package, e.g., for dashboard GUI
+-    add_custom_command(TARGET pyImpactX POST_BUILD
+-        COMMAND ${CMAKE_COMMAND} -E copy_directory
+-            ${ImpactX_SOURCE_DIR}/examples
+-            $<TARGET_FILE_DIR:pyImpactX>/examples
+-    )
+ endif()
+ 
+ 
+diff --git a/src/python/impactx/examples b/src/python/impactx/examples
+new file mode 120000
+index 000000000..9f9d1de88
+--- /dev/null
++++ b/src/python/impactx/examples
+@@ -0,0 +1 @@
++../../../examples
+\ No newline at end of file

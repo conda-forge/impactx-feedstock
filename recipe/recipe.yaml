@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: impactx
   version: "26.01"
-  build: 0
+  build: 1
 
 package:
   name: ${{ name|lower }}
@@ -12,6 +12,10 @@ package:
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
   sha256: 7ac503208daaed8b7deb81792d77cd6c462978316a41a20d07ac7f765e0ce8e1
+  patches:
+    # Fix Dashboard Examples Load
+    # https://github.com/BLAST-ImpactX/impactx/pull/1269
+    - 1269.patch
 
 build:
   skip: python_impl == "pypy"
