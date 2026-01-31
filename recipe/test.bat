@@ -15,9 +15,15 @@ if "%PRECISION%" == "DOUBLE" (
     if errorlevel 1 exit 1
 )
 
+:: clean up diags from executable test to avoid file locking issues
+if exist diags rmdir /s /q diags
+
 :: Python
 python %TEST_DIR%\run_fodo.py
 if errorlevel 1 exit 1
+
+:: clean up diags from Python test
+if exist diags rmdir /s /q diags
 
 :: Python: pytest
 ::   Skip tests for Matplotlib bug in savefig to png in Agg backend
