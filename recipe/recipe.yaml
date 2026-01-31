@@ -131,7 +131,7 @@ tests:
             - matplotlib
             - if: win
               then:
-            # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
+                # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
                 - libblas * [build=*blis]
     files:
       recipe:
