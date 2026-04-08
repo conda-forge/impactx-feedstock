@@ -1,21 +1,56 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index f5308aab..16bf6609 100644
+index f5308aab..8f7133ca 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -493,11 +493,14 @@ if(ImpactX_PYTHON)
+@@ -493,11 +493,47 @@ if(ImpactX_PYTHON)
              ${ImpactX_CUSTOM_TARGET_PREFIX}pip_wheel
      )
  
 -    # copy Python wrapper library to build directory
 -    add_custom_command(TARGET pyImpactX POST_BUILD
-+    # populate the build-tree Python package for ctest and direct build-tree imports
-+    add_custom_target(pyImpactX_python_sources ALL
-+        COMMAND ${CMAKE_COMMAND} -E make_directory
-+            ${CMAKE_PYTHON_OUTPUT_DIRECTORY}
-         COMMAND ${CMAKE_COMMAND} -E copy_directory
-             ${ImpactX_SOURCE_DIR}/src/python/impactx
+-        COMMAND ${CMAKE_COMMAND} -E copy_directory
+-            ${ImpactX_SOURCE_DIR}/src/python/impactx
 -            $<TARGET_FILE_DIR:pyImpactX>
-+            ${CMAKE_PYTHON_OUTPUT_DIRECTORY}/impactx
++    # populate the build-tree Python package for ctest and direct build-tree imports
++    set(pyImpactX_python_pkg_dir "${CMAKE_PYTHON_OUTPUT_DIRECTORY}/impactx")
++    file(GLOB_RECURSE pyImpactX_python_source_files
++        CONFIGURE_DEPENDS
++        LIST_DIRECTORIES FALSE
++        RELATIVE "${ImpactX_SOURCE_DIR}/src/python/impactx"
++        "${ImpactX_SOURCE_DIR}/src/python/impactx/*"
++    )
++    set(pyImpactX_python_copy_script
++        "${CMAKE_CURRENT_BINARY_DIR}/pyImpactX_python_sources.cmake"
++    )
++    set(pyImpactX_python_copy_script_content
++        "file(MAKE_DIRECTORY [=[${pyImpactX_python_pkg_dir}]=])\n"
++    )
++    foreach(pyImpactX_python_source_file IN LISTS pyImpactX_python_source_files)
++        get_filename_component(
++            pyImpactX_python_source_dir
++            "${pyImpactX_python_source_file}"
++            DIRECTORY
++        )
++        if(pyImpactX_python_source_dir)
++            string(APPEND pyImpactX_python_copy_script_content
++                "file(MAKE_DIRECTORY [=[${pyImpactX_python_pkg_dir}/${pyImpactX_python_source_dir}]=])\n"
++            )
++        endif()
++        string(APPEND pyImpactX_python_copy_script_content
++            "execute_process(\n"
++            "    COMMAND [=[${CMAKE_COMMAND}]=] -E copy_if_different\n"
++            "        [=[${ImpactX_SOURCE_DIR}/src/python/impactx/${pyImpactX_python_source_file}]=]\n"
++            "        [=[${pyImpactX_python_pkg_dir}/${pyImpactX_python_source_file}]=]\n"
++            "    COMMAND_ERROR_IS_FATAL ANY\n"
++            ")\n"
++        )
++    endforeach()
++    file(WRITE
++        "${pyImpactX_python_copy_script}"
++        "${pyImpactX_python_copy_script_content}"
++    )
++    add_custom_target(pyImpactX_python_sources ALL
++        COMMAND ${CMAKE_COMMAND} -P "${pyImpactX_python_copy_script}"
 +        VERBATIM
      )
  endif()
