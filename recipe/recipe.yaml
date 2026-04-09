@@ -15,6 +15,7 @@ source:
   patches:
     - 0001-fix-sp-lattice-optics-test.patch
     - 0002-fix-python-package-copy-target.patch
+    - 0003-avoid-example-symlinks-in-the-staged-python-package.patch
 
 build:
   skip: python_impl == "pypy"

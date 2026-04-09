@@ -1,0 +1,168 @@
+From 9e1acc163d0fed09c176c023f6f0be270db70838 Mon Sep 17 00:00:00 2001
+From: Axel Huebl <axel.huebl@plasma.ninja>
+Date: Wed, 8 Apr 2026 17:35:16 -0700
+Subject: [PATCH] Avoid example symlinks in the staged Python package
+
+Replace example-tree symlinks with direct references in CMake and Sphinx so the examples directory can be copied on Windows without duplicating those files in git.
+---
+ examples/CMakeLists.txt                     | 12 ++++++------
+ examples/fodo_programmable/README.rst       |  8 ++++----
+ examples/fodo_programmable/analysis_fodo.py |  1 -
+ examples/fodo_programmable/plot_fodo.py     |  1 -
+ examples/fodo_userdef/README.rst            |  8 ++++----
+ examples/fodo_userdef/analysis_fodo.py      |  1 -
+ examples/fodo_userdef/plot_fodo.py          |  1 -
+ examples/optimize_triplet/README.rst        |  2 +-
+ examples/optimize_triplet/test_xopt.py      |  1 -
+ 9 files changed, 15 insertions(+), 20 deletions(-)
+ delete mode 120000 examples/fodo_programmable/analysis_fodo.py
+ delete mode 120000 examples/fodo_programmable/plot_fodo.py
+ delete mode 120000 examples/fodo_userdef/analysis_fodo.py
+ delete mode 120000 examples/fodo_userdef/plot_fodo.py
+ delete mode 120000 examples/optimize_triplet/test_xopt.py
+
+diff --git a/examples/CMakeLists.txt b/examples/CMakeLists.txt
+index 2d54daa6..bc1db181 100644
+--- a/examples/CMakeLists.txt
++++ b/examples/CMakeLists.txt
+@@ -289,8 +289,8 @@ add_impactx_test(FODO-exact.py
+ add_impactx_test(FODO.programmable.py
+     examples/fodo_programmable/run_fodo_programmable.py
+     OFF  # ImpactX MPI-parallel
+-    examples/fodo_programmable/analysis_fodo.py
+-    examples/fodo_programmable/plot_fodo.py
++    examples/fodo/analysis_fodo.py
++    examples/fodo/plot_fodo.py
+ )
+ 
+ # Python: Change Elements Per Turn ############################################
+@@ -321,14 +321,14 @@ add_impactx_test(FODO.MADX.py
+ add_impactx_test(FODO.userdef
+     examples/fodo_userdef/input_fodo_userdef.in
+     ON   # ImpactX MPI-parallel
+-    examples/fodo_userdef/analysis_fodo.py
+-    examples/fodo_userdef/plot_fodo.py
++    examples/fodo/analysis_fodo.py
++    examples/fodo/plot_fodo.py
+ )
+ add_impactx_test(FODO.userdef.py
+     examples/fodo_userdef/run_fodo_userdef.py
+     OFF  # ImpactX MPI-parallel
+-    examples/fodo_userdef/analysis_fodo.py
+-    examples/fodo_userdef/plot_fodo.py
++    examples/fodo/analysis_fodo.py
++    examples/fodo/plot_fodo.py
+ )
+ 
+ 
+diff --git a/examples/fodo_programmable/README.rst b/examples/fodo_programmable/README.rst
+index 48b58d55..81bb7638 100644
+--- a/examples/fodo_programmable/README.rst
++++ b/examples/fodo_programmable/README.rst
+@@ -28,9 +28,9 @@ We run the following script to analyze correctness:
+ 
+ .. dropdown:: Script ``analysis_fodo.py``
+ 
+-   .. literalinclude:: analysis_fodo.py
++   .. literalinclude:: ../fodo/analysis_fodo.py
+       :language: python3
+-      :caption: You can copy this file from ``examples/fodo_programmable/analysis_fodo.py``.
++      :caption: You can copy this shared file from ``examples/fodo/analysis_fodo.py``.
+ 
+ 
+ Visualize
+@@ -40,9 +40,9 @@ You can run the following script to visualize the beam evolution over time:
+ 
+ .. dropdown:: Script ``plot_fodo.py``
+ 
+-   .. literalinclude:: plot_fodo.py
++   .. literalinclude:: ../fodo/plot_fodo.py
+       :language: python3
+-      :caption: You can copy this file from ``examples/fodo_programmable/plot_fodo.py``.
++      :caption: You can copy this shared file from ``examples/fodo/plot_fodo.py``.
+ 
+ .. figure:: https://user-images.githubusercontent.com/1353258/180287840-8561f6fd-278f-4856-abd8-04fbdb78c8ff.png
+    :alt: focusing, defocusing and preserved emittance in our FODO cell benchmark.
+diff --git a/examples/fodo_programmable/analysis_fodo.py b/examples/fodo_programmable/analysis_fodo.py
+deleted file mode 120000
+index dc8eb973..00000000
+--- a/examples/fodo_programmable/analysis_fodo.py
++++ /dev/null
+@@ -1 +0,0 @@
+-../fodo/analysis_fodo.py
+\ No newline at end of file
+diff --git a/examples/fodo_programmable/plot_fodo.py b/examples/fodo_programmable/plot_fodo.py
+deleted file mode 120000
+index ce8494b7..00000000
+--- a/examples/fodo_programmable/plot_fodo.py
++++ /dev/null
+@@ -1 +0,0 @@
+-../fodo/plot_fodo.py
+\ No newline at end of file
+diff --git a/examples/fodo_userdef/README.rst b/examples/fodo_userdef/README.rst
+index f0475fe4..7a001ad8 100644
+--- a/examples/fodo_userdef/README.rst
++++ b/examples/fodo_userdef/README.rst
+@@ -58,9 +58,9 @@ We run the following script to analyze correctness:
+ 
+ .. dropdown:: Script ``analysis_fodo.py``
+ 
+-   .. literalinclude:: analysis_fodo.py
++   .. literalinclude:: ../fodo/analysis_fodo.py
+       :language: python3
+-      :caption: You can copy this file from ``examples/fodo_userdef/analysis_fodo.py``.
++      :caption: You can copy this shared file from ``examples/fodo/analysis_fodo.py``.
+ 
+ 
+ Visualize
+@@ -70,9 +70,9 @@ You can run the following script to visualize the beam evolution over time:
+ 
+ .. dropdown:: Script ``plot_fodo.py``
+ 
+-   .. literalinclude:: plot_fodo.py
++   .. literalinclude:: ../fodo/plot_fodo.py
+       :language: python3
+-      :caption: You can copy this file from ``examples/fodo_userdef/plot_fodo.py``.
++      :caption: You can copy this shared file from ``examples/fodo/plot_fodo.py``.
+ 
+ .. figure:: https://user-images.githubusercontent.com/1353258/180287840-8561f6fd-278f-4856-abd8-04fbdb78c8ff.png
+    :alt: focusing, defocusing and preserved emittance in our FODO cell benchmark.
+diff --git a/examples/fodo_userdef/analysis_fodo.py b/examples/fodo_userdef/analysis_fodo.py
+deleted file mode 120000
+index dc8eb973..00000000
+--- a/examples/fodo_userdef/analysis_fodo.py
++++ /dev/null
+@@ -1 +0,0 @@
+-../fodo/analysis_fodo.py
+\ No newline at end of file
+diff --git a/examples/fodo_userdef/plot_fodo.py b/examples/fodo_userdef/plot_fodo.py
+deleted file mode 120000
+index ce8494b7..00000000
+--- a/examples/fodo_userdef/plot_fodo.py
++++ /dev/null
+@@ -1 +0,0 @@
+-../fodo/plot_fodo.py
+\ No newline at end of file
+diff --git a/examples/optimize_triplet/README.rst b/examples/optimize_triplet/README.rst
+index c0838cd4..e7b92562 100644
+--- a/examples/optimize_triplet/README.rst
++++ b/examples/optimize_triplet/README.rst
+@@ -52,7 +52,7 @@ Run
+ 
+       This example can be run as a **Python** script: ``python3 tests/python/test_xopt.py``.
+ 
+-      .. literalinclude:: test_xopt.py
++      .. literalinclude:: ../../tests/python/test_xopt.py
+          :language: python3
+          :caption: You can copy this file from ``tests/python/test_xopt.py``.
+ 
+diff --git a/examples/optimize_triplet/test_xopt.py b/examples/optimize_triplet/test_xopt.py
+deleted file mode 120000
+index c48b5e49..00000000
+--- a/examples/optimize_triplet/test_xopt.py
++++ /dev/null
+@@ -1 +0,0 @@
+-../../tests/python/test_xopt.py
+\ No newline at end of file
+-- 
+2.43.0
