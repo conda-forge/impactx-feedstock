@@ -2,7 +2,6 @@
 
 set "OMP_NUM_THREADS=2"
 set "TEST_DIR=examples\fodo"
-set "PYTHONFAULTHANDLER=1"
 
 :: is this a DP or SP build?
 where /q impactx.NOMPI.OMP.SP.OPMD.exe && set "PRECISION=SINGLE" || set "PRECISION=DOUBLE"
@@ -20,18 +19,6 @@ if "%PRECISION%" == "DOUBLE" (
 python %TEST_DIR%\run_fodo.py
 if errorlevel 1 exit 1
 
-:: Python: startup diagnostics for Windows 3.11+ crashes
-python -X faulthandler -c "import sys; print(sys.version)"
-if errorlevel 1 exit 1
-python -X faulthandler -c "import pytest; print('import pytest ok')"
-if errorlevel 1 exit 1
-python -X faulthandler -c "import amrex.space3d as amr; print('import amrex.space3d ok')"
-if errorlevel 1 exit 1
-python -X faulthandler -c "import impactx; print('import impactx ok')"
-if errorlevel 1 exit 1
-python -X faulthandler -c "import importlib.util; spec = importlib.util.spec_from_file_location('impactx_test_conftest', r'tests\\python\\conftest.py'); mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); print('import tests/python/conftest.py ok')"
-if errorlevel 1 exit 1
-
 :: Python: pytest
 ::   Skip tests for Matplotlib bug in savefig to png in Agg backend
 ::     https://github.com/conda-forge/impactx-feedstock/pull/23#issuecomment-1805199294
@@ -41,5 +28,5 @@ set "TESTS_MATCH=not (test_charge_deposition or test_df_pandas or test_wake)"
 if "%PRECISION%" == "SINGLE" (
     set "TESTS_MATCH=not (test_charge_deposition or test_df_pandas or test_wake or spacecharge or expanding or nC_ or transformation or element_insert)"
 )
-python -X faulthandler -m pytest -s -vvvv -k "%TESTS_MATCH%" --ignore tests\python\dashboard tests\python\
+python -m pytest -s -vvvv -k "%TESTS_MATCH%" --ignore tests\python\dashboard tests\python\
 if errorlevel 1 exit 1
