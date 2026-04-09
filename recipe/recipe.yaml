@@ -53,8 +53,7 @@ requirements:
     - fftw
     - if: win
       then:
-        # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
-        - libblas * [build=*blis]
+        - libblas 3.9.* *netlib
     - numpy
     - openpmd-api * [build=nompi_*]
     - pip
@@ -68,8 +67,7 @@ requirements:
   run:
     - if: win
       then:
-        # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
-        - libblas * [build=*blis]
+        - libblas 3.9.* *netlib
     # see requirements.txt
     - pals-schema >=0.2.0,<0.3.0
     - pyamrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
@@ -129,10 +127,9 @@ tests:
         - if: build_platform == target_platform
           then:
             - matplotlib
-            - if: win
-              then:
-            # https://github.com/conda-forge/scipy-feedstock/issues/257#issuecomment-1792217861
-                - libblas * [build=*blis]
+        - if: win
+          then:
+            - libblas 3.9.* *netlib
     files:
       recipe:
         - if: unix
