@@ -1,0 +1,48 @@
+From c51b49eb89f35ee908bc6590f14b67128a8e54aa Mon Sep 17 00:00:00 2001
+From: Axel Huebl <axel.huebl@plasma.ninja>
+Date: Wed, 8 Apr 2026 10:11:39 -0700
+Subject: [PATCH] Fix SP: `test_lattice_linear_map`
+
+Fix the new `test_lattice_linear_map` test for single precision:
+add configuration-dependent tolerances.
+---
+ tests/python/test_lattice_optics.py | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/tests/python/test_lattice_optics.py b/tests/python/test_lattice_optics.py
+index 009fe126..62618aa3 100644
+--- a/tests/python/test_lattice_optics.py
++++ b/tests/python/test_lattice_optics.py
+@@ -10,7 +10,7 @@
+ import numpy as np
+ import pytest
+ 
+-from impactx import RefPart, elements
++from impactx import Config, RefPart, elements
+ 
+ 
+ def test_lattice_linear_map():
+@@ -43,9 +43,16 @@ def test_lattice_linear_map():
+         ]
+     )
+ 
++    if Config.precision == "SINGLE":
++        atol = 1.0e-7
++        rtol = 5.0e-5
++    else:
++        atol = 0.0
++        rtol = 1.0e-8
++
+     # Calculate Linear Transfer Map
+     R = lattice.transfer_map(ref)
+-    assert np.allclose(R.to_numpy(), R_expected)
++    assert np.allclose(R.to_numpy(), R_expected, rtol=rtol, atol=atol)
+ 
+     # Check unexpected/unsupported options
+     with pytest.raises(RuntimeError):
+@@ -60,4 +67,4 @@ def test_lattice_linear_map():
+ 
+     # Now the user explicitly assumes that undefined maps are identity maps
+     R = lattice.transfer_map(ref, fallback_identity_map=True)
+-    assert np.allclose(R.to_numpy(), R_expected)
++    assert np.allclose(R.to_numpy(), R_expected, rtol=rtol, atol=atol)

@@ -29,6 +29,7 @@ cmake ^
     -DCMAKE_LINKER=lld-link               ^
     -DCMAKE_NM=llvm-nm                    ^
     -DCMAKE_VERBOSE_MAKEFILE=ON           ^
+    -DAMReX_FFTW_IGNORE_OMP=ON            ^
     -DImpactX_amrex_internal=OFF          ^
     -DImpactX_openpmd_internal=OFF        ^
     -DImpactX_pyamrex_internal=OFF        ^
