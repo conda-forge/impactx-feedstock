@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "26.03"
+  version: "26.04"
   build: 0
 
 package:
@@ -11,11 +11,7 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: 27231d36f095b60262297eaecfb3549a888eb528e179dfab0f5cab2e1985c1e4
-  patches:
-    - 0001-fix-sp-lattice-optics-test.patch
-    - 0002-fix-python-package-copy-target.patch
-    - 0003-avoid-example-symlinks-in-the-staged-python-package.patch
+  sha256: d8c56b4595b06f3d59e0c97c2c6802020e2f94faa1d022af4532dc5f6a50e280
 
 build:
   skip: python_impl == "pypy"
