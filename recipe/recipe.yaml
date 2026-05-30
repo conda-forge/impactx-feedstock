@@ -12,6 +12,10 @@ package:
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
   sha256: d8c56b4595b06f3d59e0c97c2c6802020e2f94faa1d022af4532dc5f6a50e280
+  patches:
+    # https://github.com/BLAST-ImpactX/impactx/pull/1432
+    # Relax pybind11 find_package version for package managers.
+    - relax-pybind11-find-package.patch
 
 build:
   skip: python_impl == "pypy"
