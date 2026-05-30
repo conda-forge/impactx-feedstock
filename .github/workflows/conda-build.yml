@@ -22,15 +22,6 @@ jobs:
       max-parallel: 50
       matrix:
         include:
-          - CONFIG: linux_64_impactx_precisiondppython3.10.____cpython
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
           - CONFIG: linux_64_impactx_precisiondppython3.11.____cpython
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -59,15 +50,6 @@ jobs:
             build_workspace_dir: build_artifacts
             docker_run_args: 
           - CONFIG: linux_64_impactx_precisiondppython3.14.____cp314
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_64_impactx_precisionsppython3.10.____cpython
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -112,15 +94,6 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_aarch64_impactx_precisiondppython3.10.____cpython
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
           - CONFIG: linux_aarch64_impactx_precisiondppython3.11.____cpython
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -149,15 +122,6 @@ jobs:
             build_workspace_dir: build_artifacts
             docker_run_args: 
           - CONFIG: linux_aarch64_impactx_precisiondppython3.14.____cp314
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_aarch64_impactx_precisionsppython3.10.____cpython
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu
@@ -202,15 +166,6 @@ jobs:
             tools_install_dir: ~/miniforge3
             build_workspace_dir: build_artifacts
             docker_run_args: 
-          - CONFIG: linux_ppc64le_impactx_precisiondppython3.10.____cpython
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
           - CONFIG: linux_ppc64le_impactx_precisiondppython3.11.____cpython
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
@@ -239,15 +194,6 @@ jobs:
             build_workspace_dir: build_artifacts
             docker_run_args: 
           - CONFIG: linux_ppc64le_impactx_precisiondppython3.14.____cp314
-            STORE_BUILD_ARTIFACTS: False
-            UPLOAD_PACKAGES: True
-            os: ubuntu
-            runs_on: ['ubuntu-latest']
-            DOCKER_IMAGE: quay.io/condaforge/linux-anvil-x86_64:alma9
-            tools_install_dir: ~/miniforge3
-            build_workspace_dir: build_artifacts
-            docker_run_args: 
-          - CONFIG: linux_ppc64le_impactx_precisionsppython3.10.____cpython
             STORE_BUILD_ARTIFACTS: False
             UPLOAD_PACKAGES: True
             os: ubuntu

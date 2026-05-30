@@ -8,13 +8,6 @@ jobs:
     vmImage: $(VMIMAGE)
   strategy:
     matrix:
-      osx_64_impactx_precisiondppython3.10.____cpython:
-        CONFIG: osx_64_impactx_precisiondppython3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15
-        build_workspace_dir: ~/miniforge3/conda-bld
-        store_build_artifacts: false
-        tools_install_dir: ~/miniforge3
       osx_64_impactx_precisiondppython3.11.____cpython:
         CONFIG: osx_64_impactx_precisiondppython3.11.____cpython
         UPLOAD_PACKAGES: 'True'
@@ -38,13 +31,6 @@ jobs:
         tools_install_dir: ~/miniforge3
       osx_64_impactx_precisiondppython3.14.____cp314:
         CONFIG: osx_64_impactx_precisiondppython3.14.____cp314
-        UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15
-        build_workspace_dir: ~/miniforge3/conda-bld
-        store_build_artifacts: false
-        tools_install_dir: ~/miniforge3
-      osx_64_impactx_precisionsppython3.10.____cpython:
-        CONFIG: osx_64_impactx_precisionsppython3.10.____cpython
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
         build_workspace_dir: ~/miniforge3/conda-bld
@@ -78,13 +64,6 @@ jobs:
         build_workspace_dir: ~/miniforge3/conda-bld
         store_build_artifacts: false
         tools_install_dir: ~/miniforge3
-      osx_arm64_impactx_precisiondppython3.10.____cpython:
-        CONFIG: osx_arm64_impactx_precisiondppython3.10.____cpython
-        UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15
-        build_workspace_dir: ~/miniforge3/conda-bld
-        store_build_artifacts: false
-        tools_install_dir: ~/miniforge3
       osx_arm64_impactx_precisiondppython3.11.____cpython:
         CONFIG: osx_arm64_impactx_precisiondppython3.11.____cpython
         UPLOAD_PACKAGES: 'True'
@@ -108,13 +87,6 @@ jobs:
         tools_install_dir: ~/miniforge3
       osx_arm64_impactx_precisiondppython3.14.____cp314:
         CONFIG: osx_arm64_impactx_precisiondppython3.14.____cp314
-        UPLOAD_PACKAGES: 'True'
-        VMIMAGE: macOS-15
-        build_workspace_dir: ~/miniforge3/conda-bld
-        store_build_artifacts: false
-        tools_install_dir: ~/miniforge3
-      osx_arm64_impactx_precisionsppython3.10.____cpython:
-        CONFIG: osx_arm64_impactx_precisionsppython3.10.____cpython
         UPLOAD_PACKAGES: 'True'
         VMIMAGE: macOS-15
         build_workspace_dir: ~/miniforge3/conda-bld
