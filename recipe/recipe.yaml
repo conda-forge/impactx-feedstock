@@ -18,7 +18,8 @@ source:
     - relax-pybind11-find-package.patch
 
 build:
-  skip: python_impl == "pypy"
+  skip:
+    - match(python, "<3.11")
   # prioritize DP builds if unspecified
   number: ${{ build | int + 100 if impactx_precision == "dp" else build }}
   string: nompi_${{ impactx_precision }}_h${{ hash }}_${{ build | int + 100 if impactx_precision == "dp" else build }}
