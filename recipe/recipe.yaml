@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "26.04"
+  version: "26.05"
   build: 0
 
 package:
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: d8c56b4595b06f3d59e0c97c2c6802020e2f94faa1d022af4532dc5f6a50e280
+  sha256: 6a40804416acbff8bd587aacaa607c6d663b09cecaae7bc9a33767ce6a05f4eb
   patches:
     # https://github.com/BLAST-ImpactX/impactx/pull/1432
     # Relax pybind11 find_package version for package managers.
