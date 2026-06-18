@@ -14,6 +14,11 @@ if "%impactx_precision%" == "dp" (
     set "ImpactX_FASTMATH=ON"
 )
 
+:: x86-64-v3-equivalent baseline for Windows clang-cl (AVX2 + FMA + BMI).
+:: The conda-forge x86_64-microarch-level package is Unix-only, so set the ISA
+:: baseline manually here. Note: there is no __archspec runtime guard on Windows.
+set "CFLAGS=%CFLAGS% /arch:AVX2"
+set "CXXFLAGS=%CXXFLAGS% /arch:AVX2"
 
 :: configure
 cmake ^
