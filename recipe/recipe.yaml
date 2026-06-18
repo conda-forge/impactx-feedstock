@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "26.05"
+  version: "26.06"
   build: 0
 
 package:
@@ -11,7 +11,7 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: 6a40804416acbff8bd587aacaa607c6d663b09cecaae7bc9a33767ce6a05f4eb
+  sha256: ddf034a8c109383d54dc59bc659fdcec12e0bbf0e3ca70040b33550856e39b51
 
 build:
   skip:
