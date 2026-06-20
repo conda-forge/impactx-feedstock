@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "26.05"
+  version: "26.06"
   build: 0
 
 package:
@@ -11,7 +11,11 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: 6a40804416acbff8bd587aacaa607c6d663b09cecaae7bc9a33767ce6a05f4eb
+  sha256: ddf034a8c109383d54dc59bc659fdcec12e0bbf0e3ca70040b33550856e39b51
+  patches:
+    # SP test tolerances
+    #   https://github.com/BLAST-ImpactX/impactx/pull/1520
+    - 1520.patch
 
 build:
   skip:
@@ -30,6 +34,12 @@ requirements:
     - ${{ compiler('c') }}
     - ${{ stdlib("c") }}
     - ${{ compiler('cxx') }}
+    # Target the x86-64-v3 microarchitecture on Unix x86_64 (linux-64/osx-64).
+    # Injects -march=x86-64-v3 and adds an __archspec run-export so the package
+    # only installs on v3-capable CPUs. This activation package is __unix-only;
+    # Windows sets the flag in build.bat and adds the __archspec guard in run.
+    - if: unix and x86_64
+      then: x86_64-microarch-level ==${{ microarch_level }}
     - if: unix
       then: make
     - if: win
@@ -80,6 +90,12 @@ requirements:
     - trame-router
     - trame-vuetify
     - trame-xterm
+    # On Windows the x86_64-microarch-level activation package is unavailable
+    # (__unix-only), so add the internal __archspec guard package directly. This
+    # mirrors the run-export the Unix builds get and keeps the v3-built Windows
+    # package from installing on pre-v3 CPUs. The -march flag is set in build.bat.
+    - if: win
+      then: _x86_64-microarch-level >=${{ microarch_level }}
 
   run_exports:
     # strict runtime dependency on build-time DP/SP variant

@@ -20,6 +20,8 @@ fftw:
 - '3'
 impactx_precision:
 - dp
+microarch_level:
+- '3'
 numpy:
 - '2'
 pin_run_as_build:
