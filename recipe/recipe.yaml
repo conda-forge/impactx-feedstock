@@ -59,7 +59,9 @@ requirements:
       then:
         - libblas 3.9.* *netlib
     - numpy
-    - openpmd-api * [build=nompi_*]
+    # ABLASTR 26.08 requires openPMD-api 0.17.0+
+    #   find_package(openPMD 0.17.0 CONFIG REQUIRED ...)
+    - openpmd-api >=0.17.0 [build=nompi_*]
     - pip
     - pyamrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
     - pybind11
