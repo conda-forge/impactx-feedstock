@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "26.06"
+  version: "26.08"
   build: 0
 
 package:
@@ -11,11 +11,11 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: ddf034a8c109383d54dc59bc659fdcec12e0bbf0e3ca70040b33550856e39b51
+  sha256: 9bfd537e41d5d6cc5e7e8a59787d2bb4c4b9b94ae116ee3c22f3ef58b5573b9a
   patches:
-    # SP test tolerances
-    #   https://github.com/BLAST-ImpactX/impactx/pull/1520
-    - 1520.patch
+    # SP test tolerance for the ChrAcc Ez=0 test
+    #   https://github.com/BLAST-ImpactX/impactx/pull/1614
+    - 1614.patch
 
 build:
   skip:
@@ -38,10 +38,11 @@ requirements:
     # Injects -march=x86-64-v3 and adds an __archspec run-export so the package
     # only installs on v3-capable CPUs. This activation package is __unix-only;
     # Windows sets the flag in build.bat and adds the __archspec guard in run.
-    - if: unix and x86_64
-      then: x86_64-microarch-level ==${{ microarch_level }}
     - if: unix
-      then: make
+      then:
+        - if: x86_64
+          then: x86_64-microarch-level ==${{ microarch_level }}
+        - make
     - if: win
       then:
         - clang
@@ -62,7 +63,9 @@ requirements:
       then:
         - libblas 3.9.* *netlib
     - numpy
-    - openpmd-api * [build=nompi_*]
+    # ABLASTR 26.08 requires openPMD-api 0.17.0+
+    #   find_package(openPMD 0.17.0 CONFIG REQUIRED ...)
+    - openpmd-api >=0.17.0 [build=nompi_*]
     - pip
     - pyamrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
     - pybind11
@@ -71,6 +74,7 @@ requirements:
     - setuptools
     - vir-simd
     - wheel
+    - zlib
   run:
     - if: win
       then:
