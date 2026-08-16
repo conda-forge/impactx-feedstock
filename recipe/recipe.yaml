@@ -12,10 +12,6 @@ package:
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
   sha256: 9bfd537e41d5d6cc5e7e8a59787d2bb4c4b9b94ae116ee3c22f3ef58b5573b9a
-  patches:
-    # SP test tolerances
-    #   https://github.com/BLAST-ImpactX/impactx/pull/1520
-    - 1520.patch
 
 build:
   skip:
