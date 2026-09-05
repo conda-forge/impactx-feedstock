@@ -1,0 +1,108 @@
+From 46a1cdd099e4d7a00299b474e6d79495c8d0fcd9 Mon Sep 17 00:00:00 2001
+From: Axel Huebl <axel.huebl@plasma.ninja>
+Date: Fri, 4 Sep 2026 21:50:02 -0700
+Subject: [PATCH] Tests: SP Tolerances for Strang Split & MAD-X Solenoid
+
+`test_strang_split.py` and `test_madx_min_model.py` were added with
+double-precision-only bounds and no precision guard, so both fail in
+every single precision job that runs tests.
+
+`test_solenoid_promotion_preserves_the_reference_map` compares the
+`Sol` and the promoted `ChrAcc` transfer map at `atol=1.0e-14,
+rtol=0`. The map entries are of order one, so in float32 that is two
+orders of magnitude below one ulp. Measured over `ks = -2.3 ... 3.0`,
+the two maps differ by 3e-8 ... 6e-8, i.e. one to two ulp: they agree
+to the last representable bit. Relax to 1.0e-6 (a few ulp) in single
+precision, keep 1.0e-14 for double.
+
+`test_split_is_time_symmetric` asserts that tracking through the
+reversed chain returns the beam to `1.0e-10`. The forward and the
+reversed pass deposit the same particles in a different order, so
+their charge densities differ in the last bits and that difference is
+carried through the Poisson solve and the gather. In single precision
+the floor is set by the summation order of the threaded deposition,
+not by the solver tolerance - tightening `mlmg_relative_tolerance`
+from 1e-4 to 1e-6 moves the residual by 2%, while the thread count
+moves it by two orders:
+
+  OMP threads   1       2       3       4       6       8
+  residual      1.6e-7  1.0e-5  3.3e-6  7.1e-7  2.3e-6  7.3e-6
+
+Serial sits at the float32 floor; results are bit-reproducible at a
+fixed thread count, so this is a floor and not flakiness. Observed
+across platforms: 2.6e-7 ... 1.8e-6 on the conda-forge linux, macOS
+and Windows SP jobs, up to 1.0e-5 locally. Relax to 3.0e-5 in single
+precision (~3x margin on the widest residual seen), keep 1.0e-10 for
+double.
+
+The test stays discriminating: its companion
+`test_first_order_composition_is_not_time_symmetric` requires a
+residual above 1.0e-4, and the first-order composition misses time
+symmetry by 2.7e-2 here - three orders above the relaxed bound.
+
+This follows the existing pattern in e.g. `test_dipedge_ref.py` and
+`test_chracc_Ez0.py`.
+
+Found via the conda-forge 26.09 build, where the linux, macOS and
+Windows SP jobs all fail these same four cases. Verified on a local
+26.09 SINGLE build: 4 failed before, 439 passed / 1 skipped /
+3 deselected for the full SP suite with the CI filter after.
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Y1UuVqw6aK4RrKJGVMVAYg
+---
+ tests/python/test_madx_min_model.py | 5 +++--
+ tests/python/test_strang_split.py   | 7 +++++--
+ 2 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/tests/python/test_madx_min_model.py b/tests/python/test_madx_min_model.py
+index e635dd153..93f8c30e5 100644
+--- a/tests/python/test_madx_min_model.py
++++ b/tests/python/test_madx_min_model.py
+@@ -35,7 +35,7 @@ import warnings
+ import numpy as np
+ import pytest
+ 
+-from impactx import RefPart, elements
++from impactx import Config, RefPart, elements
+ from impactx.element_models import MODEL_TIERS, select_model
+ from impactx.madx_to_impactx import (
+     MADXImpactXTranslatorWarning,
+@@ -355,7 +355,8 @@ def test_solenoid_promotion_preserves_the_reference_map(ks):
+ 
+     linear_map = np.array(sol.transfer_map(ref)).reshape(6, 6)
+     paraxial_map = np.array(acc.transfer_map(ref)).reshape(6, 6)
+-    assert np.allclose(linear_map, paraxial_map, rtol=0.0, atol=1.0e-14)
++    atol = 1.0e-14 if Config.precision != "SINGLE" else 1.0e-6
++    assert np.allclose(linear_map, paraxial_map, rtol=0.0, atol=atol)
+ 
+ 
+ def test_solenoid_promotion_warns_about_energy_pinning():
+diff --git a/tests/python/test_strang_split.py b/tests/python/test_strang_split.py
+index 77cd82b29..54bed5704 100644
+--- a/tests/python/test_strang_split.py
++++ b/tests/python/test_strang_split.py
+@@ -13,7 +13,7 @@ import numpy as np
+ import pytest
+ 
+ import amrex.space3d as amr
+-from impactx import ImpactX, Map6x6, distribution, elements
++from impactx import Config, ImpactX, Map6x6, distribution, elements
+ 
+ # beam and lattice parameters, shared by all runs below
+ KIN_ENERGY_MEV = 250.0
+@@ -342,7 +342,10 @@ def test_split_is_time_symmetric(sliceable):
+     """
+     residual = _roundtrip(strang_split=True, sliceable=sliceable)
+ 
+-    assert residual < 1.0e-10, f"beam did not return: {residual:.3e}"
++    # in single precision the floor is set by the summation order of the threaded
++    # deposition: serial returns to 1.6e-7, 2 to 8 threads spread it over 6e-7 ... 1e-5
++    rtol = 1.0e-10 if Config.precision != "SINGLE" else 3.0e-5
++    assert residual < rtol, f"beam did not return: {residual:.3e}"
+ 
+ 
+ @pytest.mark.parametrize(
+-- 
+2.49.0
+

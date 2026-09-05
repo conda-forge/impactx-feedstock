@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "26.08"
+  version: "26.09"
   build: 0
 
 package:
@@ -11,11 +11,11 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: 9bfd537e41d5d6cc5e7e8a59787d2bb4c4b9b94ae116ee3c22f3ef58b5573b9a
+  sha256: 8dd1ba4ac87800c3e5860711dbfd715e3efbb4cccd5c1f8bcd47fce1dc886224
   patches:
-    # SP test tolerance for the ChrAcc Ez=0 test
-    #   https://github.com/BLAST-ImpactX/impactx/pull/1614
-    - 1614.patch
+    # SP test tolerances for the Strang split and the MAD-X solenoid promotion
+    #   https://github.com/BLAST-ImpactX/impactx/pull/1654
+    - 1654.patch
 
 build:
   skip:
@@ -80,7 +80,7 @@ requirements:
       then:
         - libblas 3.9.* *netlib
     # see requirements.txt
-    - pals-schema >=0.2.0,<0.3.0
+    - pals-schema >=0.3.0,<0.4.0
     - pyamrex ==${{ version }}[build=nompi_${{ impactx_precision }}_*]
     - python
     - scipy
