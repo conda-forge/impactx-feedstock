@@ -12,10 +12,6 @@ package:
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
   sha256: 44ae5c83ca76fa71541502cb18dc26ee705c75a6e4e8e56c192a313c2ae50ca4
-  patches:
-    # SP test tolerances for the Strang split and the MAD-X solenoid promotion
-    #   https://github.com/BLAST-ImpactX/impactx/pull/1654
-    - 1654.patch
 
 build:
   skip:
