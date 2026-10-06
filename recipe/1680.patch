@@ -1,0 +1,33 @@
+From 50571f277dabca2fa8d61665f955e8ee7761501d Mon Sep 17 00:00:00 2001
+From: Axel Huebl <axel.huebl@plasma.ninja>
+Date: Tue, 6 Oct 2026 14:29:43 -0700
+Subject: [PATCH] PolygonAperture: Round Winding Number
+
+Particles were counted inside the polygon when |angle sum / 2 pi|
+exceeded 1e-12. Outside, that sum is zero only up to roundoff, ~1e-7
+in single precision, so outside particles could pass a "transmit"
+(or be removed by an "absorb") aperture. Compare against 0.5 instead.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ src/elements/PolygonAperture.H | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/src/elements/PolygonAperture.H b/src/elements/PolygonAperture.H
+index ca5fcfa63..d841916ce 100644
+--- a/src/elements/PolygonAperture.H
++++ b/src/elements/PolygonAperture.H
+@@ -208,7 +208,12 @@ namespace impactx::elements
+                     v2 = Complex(u - vertices_x[i+1], v-vertices_y[i+1]);
+                     thetasum += arg(v2 * v1conj);
+                 }
+-                inside_aperture = abs(thetasum/(2*ablastr::constant::math::pi)) > 1.0e-12_prt;
++                // |thetasum / 2 pi| is exactly 1 inside and 0 outside, but only up to the
++                // roundoff of the summed angles: ~1e-16 in double, ~1e-7 in single
++                // precision, growing with the number of vertices. Comparing against the
++                // midpoint 0.5, rather than against zero, rounds it to the nearer of the
++                // two values, so that roundoff cannot turn an outside point into inside.
++                inside_aperture = abs(thetasum/(2*ablastr::constant::math::pi)) > 0.5_prt;
+             }
+ 
+             // For transmit (default): invalidate if outside aperture

@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: impactx
-  version: "26.09"
+  version: "26.10"
   build: 0
 
 package:
@@ -11,11 +11,14 @@ package:
 
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
-  sha256: 8dd1ba4ac87800c3e5860711dbfd715e3efbb4cccd5c1f8bcd47fce1dc886224
+  sha256: 44ae5c83ca76fa71541502cb18dc26ee705c75a6e4e8e56c192a313c2ae50ca4
   patches:
-    # SP test tolerances for the Strang split and the MAD-X solenoid promotion
-    #   https://github.com/BLAST-ImpactX/impactx/pull/1654
-    - 1654.patch
+    # SP: PolygonAperture inside/outside test robust to roundoff
+    #   https://github.com/BLAST-ImpactX/impactx/pull/1680
+    - 1680.patch
+    # SP: element copy test tolerances
+    #   https://github.com/BLAST-ImpactX/impactx/pull/1681
+    - 1681.patch
 
 build:
   skip:
