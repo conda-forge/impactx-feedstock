@@ -12,6 +12,13 @@ package:
 source:
   url: https://github.com/BLAST-ImpactX/impactx/archive/${{ version }}.tar.gz
   sha256: 44ae5c83ca76fa71541502cb18dc26ee705c75a6e4e8e56c192a313c2ae50ca4
+  patches:
+    # SP: PolygonAperture inside/outside test robust to roundoff
+    #   https://github.com/BLAST-ImpactX/impactx/pull/1680
+    - 1680.patch
+    # SP: element copy test tolerances
+    #   https://github.com/BLAST-ImpactX/impactx/pull/1681
+    - 1681.patch
 
 build:
   skip:
