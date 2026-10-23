@@ -65,6 +65,11 @@ if errorlevel 1 exit 1
 ::   do not install static libs from ImpactX
 del "%LIBRARY_PREFIX%\lib\libimpactx*.lib"
 if errorlevel 1 exit 1
+::   do not install a duplicate Python module outside of site-packages
+::   (CMake installs pyImpactX to CMAKE_INSTALL_LIBDIR; pip_install_nodeps
+::    installs the one Python imports into site-packages)
+del "%LIBRARY_PREFIX%\lib\impactx_pybind*.pyd"
+if errorlevel 1 exit 1
 
 :: pytest -> deferred to test.sh
 if "%impactx_precision%" == "dp" (
