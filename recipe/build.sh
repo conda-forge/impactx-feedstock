@@ -71,3 +71,7 @@ cmake --build build --target pip_install_nodeps
 rm -rf ${PREFIX}/lib/libablastr_*.a
 #   do not install static libs from ImpactX
 rm -rf ${PREFIX}/lib/libimpactx*.a
+#   do not install a duplicate Python module outside of site-packages
+#   (CMake installs pyImpactX to CMAKE_INSTALL_LIBDIR; pip_install_nodeps
+#    installs the one Python imports into site-packages)
+rm -f ${PREFIX}/lib/impactx_pybind*
